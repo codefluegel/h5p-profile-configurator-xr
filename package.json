@@ -1,5 +1,5 @@
 {
-  "name": "h5p-personality-quiz",
+  "name": "h5p-personality-quiz-xr",
   "version": "1.1.5",
   "description": "Create a personality quiz and test which Game of Thrones or Hogwarts House your friends belong in.",
   "private": true,
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/otacke/h5p-personality-quiz.git"
+    "url": "git+https://github.com/otacke/h5p-personality-quiz-xr.git"
   },
   "keywords": [
     "h5p",

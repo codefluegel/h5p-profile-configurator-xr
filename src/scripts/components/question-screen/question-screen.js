@@ -32,7 +32,7 @@ export default class QuestionScreen {
    */
   buildDOM() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-personality-quiz-question-screen');
+    this.dom.classList.add('h5p-personality-quiz-xr-question-screen');
 
     // Progressbar
     this.progressBar = new ProgressBar({
@@ -82,7 +82,7 @@ export default class QuestionScreen {
     });
 
     this.panelWrapper = document.createElement('div');
-    this.panelWrapper.classList.add('h5p-personality-quiz-panel-wrapper');
+    this.panelWrapper.classList.add('h5p-personality-quiz-xr-panel-wrapper');
     this.dom.append(this.panelWrapper);
 
     this.panels.forEach((panel) => {

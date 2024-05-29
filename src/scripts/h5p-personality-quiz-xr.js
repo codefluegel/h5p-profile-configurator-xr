@@ -7,9 +7,9 @@ import QuestionTypeContract from '@mixins/question-type-contract.js';
 import Sanitization from '@mixins/sanitization.js';
 import XAPI from '@mixins/xapi.js';
 import Color from 'color';
-import '@styles/h5p-personality-quiz.scss';
+import '@styles/h5p-personality-quiz-xr.scss';
 
-export default class PersonalityQuiz extends H5P.EventDispatcher {
+export default class PersonalityQuizXR extends H5P.EventDispatcher {
   /**
    * @class
    * @param {object} params Parameters passed by the editor.
@@ -19,7 +19,9 @@ export default class PersonalityQuiz extends H5P.EventDispatcher {
   constructor(params, contentId, extras = {}) {
     super();
 
-    Util.addMixins(PersonalityQuiz, [QuestionTypeContract, Sanitization, XAPI]);
+    Util.addMixins(
+      PersonalityQuizXR, [QuestionTypeContract, Sanitization, XAPI]
+    );
 
     // Sanitize parameters
     this.params = Util.extend({
@@ -105,7 +107,7 @@ export default class PersonalityQuiz extends H5P.EventDispatcher {
    * @param {H5P.jQuery} $wrapper Content's container.
    */
   attach($wrapper) {
-    $wrapper.get(0).classList.add('h5p-personality-quiz');
+    $wrapper.get(0).classList.add('h5p-personality-quiz-xr');
     $wrapper.get(0).appendChild(this.dom);
   }
 
@@ -127,7 +129,7 @@ export default class PersonalityQuiz extends H5P.EventDispatcher {
    */
   buildDOM() {
     const dom = document.createElement('div');
-    dom.classList.add('h5p-personality-quiz-main');
+    dom.classList.add('h5p-personality-quiz-xr-main');
 
     this.content = new Content({
       dictionary: this.dictionary,
@@ -258,7 +260,7 @@ export default class PersonalityQuiz extends H5P.EventDispatcher {
   getTitle() {
     // H5P Core function: createTitle
     return H5P.createTitle(
-      this.extras?.metadata?.title || PersonalityQuiz.DEFAULT_DESCRIPTION
+      this.extras?.metadata?.title || PersonalityQuizXR.DEFAULT_DESCRIPTION
     );
   }
 
@@ -267,9 +269,9 @@ export default class PersonalityQuiz extends H5P.EventDispatcher {
    * @returns {string} Description.
    */
   getDescription() {
-    return PersonalityQuiz.DEFAULT_DESCRIPTION;
+    return PersonalityQuizXR.DEFAULT_DESCRIPTION;
   }
 }
 
 /** @constant {string} Default description */
-PersonalityQuiz.DEFAULT_DESCRIPTION = 'Personality Quiz';
+PersonalityQuizXR.DEFAULT_DESCRIPTION = 'Personality Quiz';

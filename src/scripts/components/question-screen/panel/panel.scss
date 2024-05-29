@@ -6,7 +6,7 @@
   100% { opacity: 0; }
 }
 
-.h5p-personality-quiz-panel {
+.h5p-personality-quiz-xr-panel {
   align-content: center;
   display: flex;
   flex-direction: column;
@@ -14,21 +14,21 @@
   min-height: 4rem;
   width: 100%;
 
-  .h5p-personality-quiz-panel-image {
+  .h5p-personality-quiz-xr-panel-image {
     max-height: 10rem;
     object-fit: cover;
   }
 
-  .h5p-personality-quiz-question {
+  .h5p-personality-quiz-xr-question {
     font-weight: bold;
     padding: 1em;
     text-align: center;
   }
 
-  .h5p-personality-quiz-answer-options {
+  .h5p-personality-quiz-xr-answer-options {
     padding: 0;
 
-    .h5p-personality-quiz-answer-list-item {
+    .h5p-personality-quiz-xr-answer-list-item {
       list-style: none;
     }
 
@@ -36,7 +36,7 @@
       grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
       gap: 1rem;
 
-      .h5p-personality-quiz-answer-list-item {
+      .h5p-personality-quiz-xr-answer-list-item {
         height: 100%;
       }
     }
@@ -48,13 +48,13 @@
   }
 
   &.appearance-classic {
-    .h5p-personality-quiz-question {
+    .h5p-personality-quiz-xr-question {
       font-weight: bold;
       padding: 1em;
       text-align: center;
     }
 
-    .h5p-personality-quiz-answer-options {
+    .h5p-personality-quiz-xr-answer-options {
       display: grid;
       margin: 0;
       padding: 0;
@@ -66,7 +66,7 @@
     margin-bottom: 0.5rem;
     min-height: 2.5rem;
 
-    .h5p-personality-quiz-question {
+    .h5p-personality-quiz-xr-question {
       background-color: #eeeeee;
       border-radius: 1rem 1rem 1rem 0;
       box-shadow: 0.125rem 0.125rem 0.25rem rgba(0 0 0 / 0.2);
@@ -125,7 +125,7 @@
       }
     }
 
-    .h5p-personality-quiz-answer-options {
+    .h5p-personality-quiz-xr-answer-options {
       align-self: flex-end;
       display: flex;
       flex-direction: row;

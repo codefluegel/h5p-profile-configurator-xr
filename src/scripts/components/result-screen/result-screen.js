@@ -38,24 +38,24 @@ export default class ResultScreen {
    */
   buildDOM() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-personality-quiz-result-screen');
+    this.dom.classList.add('h5p-personality-quiz-xr-result-screen');
 
     this.explanation = document.createElement('div');
     this.explanation.classList.add(
-      'h5p-personality-quiz-result-screen-explanation'
+      'h5p-personality-quiz-xr-result-screen-explanation'
     );
     this.explanation.classList.add('display-none');
 
     this.title = document.createElement('p');
     this.title.classList.add(
-      'h5p-personality-quiz-result-screen-explanation-title'
+      'h5p-personality-quiz-xr-result-screen-explanation-title'
     );
     this.title.classList.add('display-none');
     this.explanation.append(this.title);
 
     this.imageInline = document.createElement('img');
     this.imageInline.classList.add(
-      'h5p-personality-quiz-result-screen-explanation-image-inline'
+      'h5p-personality-quiz-xr-result-screen-explanation-image-inline'
     );
     this.imageInline.classList.add('display-none');
     this.imageInline.addEventListener('load', () => {
@@ -66,14 +66,14 @@ export default class ResultScreen {
 
     this.description = document.createElement('p');
     this.description.classList.add(
-      'h5p-personality-quiz-result-screen-explanation-description'
+      'h5p-personality-quiz-xr-result-screen-explanation-description'
     );
     this.description.classList.add('display-none');
     this.explanation.append(this.description);
     this.dom.append(this.explanation);
 
     this.button = document.createElement('button');
-    this.button.classList.add('h5p-personality-quiz-result-screen-reset-button');
+    this.button.classList.add('h5p-personality-quiz-xr-result-screen-reset-button');
     this.button.innerText = this.params.l10n.reset;
     this.button.addEventListener('click', () => {
       this.callbacks.onReset();

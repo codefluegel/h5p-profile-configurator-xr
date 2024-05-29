@@ -1,5 +1,5 @@
 {
-  "title": "Personality Quiz",
+  "title": "Personality Quiz XR",
   "description": "Create a personality quiz and test which Game of Thrones or Hogwarts House your friends belong in.",
   "majorVersion": 1,
   "minorVersion": 1,
@@ -7,18 +7,18 @@
   "runnable": 1,
   "author": "Oliver Tacke, Lumenia AS",
   "license": "MIT",
-  "machineName": "H5P.PersonalityQuiz",
+  "machineName": "H5P.PersonalityQuizXR",
   "embedTypes": [
     "iframe"
   ],
   "preloadedJs": [
     {
-      "path": "dist/h5p-personality-quiz.js"
+      "path": "dist/h5p-personality-quiz-xr.js"
     }
   ],
   "preloadedCss": [
     {
-      "path": "dist/h5p-personality-quiz.css"
+      "path": "dist/h5p-personality-quiz-xr.css"
     }
   ],
   "preloadedDependencies": [

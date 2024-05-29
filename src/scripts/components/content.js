@@ -63,7 +63,7 @@ export default class Content {
    */
   buildDOM() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-personality-quiz-content');
+    this.dom.classList.add('h5p-personality-quiz-xr-content');
 
     if (!this.params.personalities.length) {
       this.messageBoxHint = new MessageBoxHint();
@@ -136,7 +136,7 @@ export default class Content {
     // Title screen if set
     if (this.params.titleScreen) {
       this.intro = document.createElement('div');
-      this.intro.classList.add('h5p-personality-quiz-content-intro');
+      this.intro.classList.add('h5p-personality-quiz-xr-content-intro');
 
       this.startScreen = new MediaScreen({
         id: 'start',

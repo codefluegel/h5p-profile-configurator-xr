@@ -42,7 +42,7 @@ export default class Option {
    */
   buildDOM() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-personality-quiz-answer-option');
+    this.dom.classList.add('h5p-personality-quiz-xr-answer-option');
     this.dom.classList.add(`appearance-${this.params.appearance}`);
     if (this.params.mode === 'image') {
       this.dom.classList.add('has-image');
@@ -50,7 +50,7 @@ export default class Option {
 
     // Button
     this.button = document.createElement('button');
-    this.button.classList.add('h5p-personality-quiz-answer-option-button');
+    this.button.classList.add('h5p-personality-quiz-xr-answer-option-button');
 
     this.button.addEventListener('click', () => {
       window.setTimeout(() => {
@@ -72,7 +72,7 @@ export default class Option {
     // Image
     if (this.params.mode === 'image') {
       const image = document.createElement('img');
-      image.classList.add('h5p-personality-quiz-answer-option-button-image');
+      image.classList.add('h5p-personality-quiz-xr-answer-option-button-image');
       image.setAttribute('alt', this.params.image.alt ?? '');
       image.addEventListener('load', () => {
         this.params.globals.get('resize')();
@@ -86,7 +86,7 @@ export default class Option {
     // Button text
     this.buttonText = document.createElement('span');
     this.buttonText.classList.add(
-      'h5p-personality-quiz-answer-option-button-text'
+      'h5p-personality-quiz-xr-answer-option-button-text'
     );
     this.buttonText.innerText = this.params.text;
     this.button.append(this.buttonText);

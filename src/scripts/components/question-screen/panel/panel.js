@@ -41,13 +41,13 @@ export default class Panel {
    */
   buildDOM() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-personality-quiz-panel');
+    this.dom.classList.add('h5p-personality-quiz-xr-panel');
     this.dom.classList.add(`appearance-${this.params.appearance}`);
 
     // Image
     if (this.params.image?.file?.path) {
       const image = document.createElement('img');
-      image.classList.add('h5p-personality-quiz-panel-image');
+      image.classList.add('h5p-personality-quiz-xr-panel-image');
       image.setAttribute('alt', this.params.image.file.alt ?? '');
       image.addEventListener('load', () => {
         this.params.globals.get('resize')();
@@ -62,7 +62,7 @@ export default class Panel {
     const questionTextId = H5P.createUUID();
 
     this.questionText = document.createElement('div');
-    this.questionText.classList.add('h5p-personality-quiz-question');
+    this.questionText.classList.add('h5p-personality-quiz-xr-question');
     this.questionText.setAttribute('id', questionTextId);
     this.dom.append(this.questionText);
 
@@ -89,7 +89,7 @@ export default class Panel {
 
     // Options
     this.optionWrapper = document.createElement('ol');
-    this.optionWrapper.classList.add('h5p-personality-quiz-answer-options');
+    this.optionWrapper.classList.add('h5p-personality-quiz-xr-answer-options');
     this.optionWrapper.classList.add(`mode-${mode}`);
     this.optionWrapper.setAttribute('aria-labelledby', questionTextId);
     // Some screenreaders do not real label unless role is set to group
@@ -104,7 +104,7 @@ export default class Panel {
 
     this.params.answerOptions.forEach((option, index) => {
       const listItem = document.createElement('li');
-      listItem.classList.add('h5p-personality-quiz-answer-list-item');
+      listItem.classList.add('h5p-personality-quiz-xr-answer-list-item');
       this.optionWrapper.append(listItem);
 
       const optionInstance = new Option(
