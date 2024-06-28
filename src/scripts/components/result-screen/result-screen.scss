@@ -85,6 +85,10 @@
     &:focus {
       outline-style: double;
     }
+
+    &.display-none {
+      display: none;
+    }
   }
 
   &.display-none {
