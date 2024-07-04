@@ -147,11 +147,6 @@
           background: #cccccc;
         }
       }
-
-      &.selected {
-        background-color: var(--color-button-active);
-        color: var(--color-button-text-active);
-      }
     }
 
     &.has-image {
