@@ -88,6 +88,10 @@
                 ]
               },
               {
+                "label": "Allow multiple choices",
+                "description": "If checked, the user can select multiple answers for this question."
+              },
+              {
                 "label": "Answers",
                 "entity": "answer",
                 "field": {
@@ -258,6 +262,10 @@
         {
           "label": "Results title",
           "default": "Here are your results."
+        },
+        {
+          "label": "\"Stand\" by message",
+          "default": "Stand by."
         }
       ]
     }

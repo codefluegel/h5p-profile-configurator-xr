@@ -7,12 +7,16 @@ import WheelOfFortune from '@components/wheel-of-fortune/wheel-of-fortune.js';
 
 export default class Content {
 
-  constructor(params = {}) {
+  constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       personalities: [],
       questions: [],
       previousState: {}
     }, params);
+
+    this.callbacks = Util.extend({
+      onReset: () => {}
+    }, callbacks);
 
     // Compute score matrix
     this.scoreMatrix = this.params.questions.map((question) => {
@@ -179,7 +183,7 @@ export default class Content {
       },
       {
         onReset: () => {
-          this.reset({ focus: true });
+          this.callbacks.onReset();
         }
       }
     );
@@ -257,18 +261,19 @@ export default class Content {
   /**
    * Handle answer given.
    * @param {object} [params] Parameters.
-   * @param {number} params.questionIndex Index of question.
-   * @param {number} params.optionIndex Index of chosen option.
+   * @param {number[]} params.optionIndexes Index of chosen option.
    */
   handleAnswerGiven(params = {}) {
-    this.scoreMatrix[params.questionIndex][params.optionIndex]
-      .forEach((scoreEntry) => {
-        this.scores[scoreEntry.personalityIndex] += scoreEntry.score;
-      });
+    params.optionIndexes.forEach((optionIndex) => {
+      this.scoreMatrix[params.questionIndex][optionIndex]
+        .forEach((scoreEntry) => {
+          this.scores[scoreEntry.personalityIndex] += scoreEntry.score;
+        });
+    });
 
     this.answersGiven.push({
       question: params.questionIndex,
-      option: params.optionIndex
+      options: params.optionIndexes
     });
 
     if (this.answersGiven.length < this.params.questions.length) {

@@ -39,11 +39,12 @@ export default class QuestionTypeContract {
 
   /**
    * Reset task.
+   * @param {object} [params] Parameters. Not part of the contract.
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-5}
    */
-  resetTask() {
+  resetTask(params) {
     this.contentWasReset = true;
-    this.content?.reset();
+    this.content?.reset(params);
   }
 
   /**

@@ -47,6 +47,12 @@
     }
   }
 
+  .h5p-personality-quiz-xr-button-done {
+    align-self: flex-end;
+    font-size: 1rem;
+    width: fit-content;
+  }
+
   &.appearance-classic {
     .h5p-personality-quiz-xr-question {
       font-weight: bold;
@@ -58,6 +64,43 @@
       display: grid;
       margin: 0;
       padding: 0;
+    }
+
+    .h5p-personality-quiz-xr-button-done {
+      background-color: var(--color-button-background);
+      background-size: cover;
+      border: 0;
+      border-radius: 3px;
+      color: var(--color-button-text);
+      cursor: pointer;
+      font-weight: 400;
+      padding: 0.5rem 1.5rem;
+      text-align: center;
+      text-decoration: none solid var(--color-button-text);
+
+      &[disabled] {
+        background-color: #eeeeee;
+        color: #a0a0a0;
+      }
+
+      &:not([disabled]):hover {
+        background-color: var(--color-button-hover);
+        background-size: cover;
+        cursor: pointer;
+      }
+
+      &:not([disabled]):active {
+        background-color: var(--color-button-active);
+        background-size: cover;
+      }
+
+      &:not([disabled]):focus {
+        outline-style: double;
+      }
+
+      &.display-none {
+        display: none;
+      }
     }
   }
 
@@ -156,6 +199,63 @@
 
       &.display-none {
         display: none;
+      }
+    }
+
+    .h5p-personality-quiz-xr-button-done {
+      background-color: #eeeeee;
+      border: none;
+      border-radius: 1rem 1rem 0 1rem;
+      box-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+      color: inherit;
+      margin: 0 2.5rem 0.5rem 0;
+      padding: 0.5rem 1rem;
+      position: relative;
+      text-align: left;
+      width: fit-content;
+
+      .h5p-personality-quiz-xr-done-button-label {
+        border-radius: 0 0 0 1rem;
+        font-weight: normal;
+        padding: 0.5rem 1rem;
+        text-align: left;
+      }
+
+      &.display-none {
+        display: none;
+      }
+
+      &[disabled] {
+        background-color: #f8f8f8;
+        color: #a0a0a0;
+      }
+
+      &.selected {
+        background-color: var(--color-button-active);
+        color: var(--color-button-text-active);
+      }
+
+      &:not([disabled]):hover {
+        background-color: #cccccc;
+        cursor: pointer;
+      }
+
+      &::before {
+        background-color: var(--color-button-active);
+        border: 1px solid transparent;
+        border-radius: 100%;
+        color: var(--color-button-text-active);
+        content: "\f007";
+        display: block;
+        font-family: "H5PFontAwesome4", sans-serif;
+        font-weight: bold;
+        height: 2rem;
+        line-height: 2rem;
+        text-align: center;
+        width: 2rem;
+        position: absolute;
+        bottom: -1rem;
+        right: -2.5rem;
       }
     }
   }

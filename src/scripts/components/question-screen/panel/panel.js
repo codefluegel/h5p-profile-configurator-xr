@@ -33,6 +33,8 @@ export default class Panel {
 
     this.isVisibleState = true;
 
+    this.optionsChosen = [];
+
     this.buildDOM();
   }
 
@@ -118,11 +120,18 @@ export default class Panel {
         },
         {
           onClicked: () => {
-            optionInstance.select({ animate: this.params.animation });
+            if (!this.optionsChosen.includes(index)) {
+              optionInstance.select({ animate: this.params.animation });
+            }
+            else {
+              optionInstance.deselect();
+            }
             this.handleOptionChosen(index);
           },
           onCompleted: () => {
-            this.handleOptionCompleted(index);
+            if (!this.params.allowsMultipleChoices) {
+              this.handleOptionCompleted();
+            }
           }
         }
       );
@@ -131,6 +140,36 @@ export default class Panel {
 
       listItem.append(optionInstance.getDOM());
     });
+
+    if (this.params.allowsMultipleChoices) {
+      this.buttonDone = document.createElement('button');
+      this.buttonDone.classList.add('h5p-personality-quiz-xr-button-done');
+      if (this.params.animation && this.params.appearance === 'chat') {
+        this.buttonDone.classList.add('display-none');
+      }
+
+      const label = document.createElement('span');
+      label.classList.add('h5p-personality-quiz-xr-button-done-label');
+      label.innerText = this.params.dictionary.get('l10n.done');
+      this.buttonDone.append(label);
+
+      if (this.optionsChosen.length === 0) {
+        this.buttonDone.disabled = true;
+      }
+
+      this.buttonDone.addEventListener('click', () => {
+        this.buttonDone.disabled = true;
+        this.buttonDone.classList.add('selected');
+        this.options.forEach((option) => {
+          option.disable();
+        });
+
+        this.callbacks.onAnswerGiven(this.optionsChosen);
+        this.callbacks.onCompleted();
+      });
+
+      this.dom.append(this.buttonDone);
+    }
   }
 
   /**
@@ -166,6 +205,7 @@ export default class Panel {
 
         window.setTimeout(() => {
           this.optionWrapper.classList.remove('display-none');
+          this.buttonDone?.classList.remove('display-none');
           this.params.globals.get('resize')();
           if (params.focus) {
             window.setTimeout(() => {
@@ -218,7 +258,8 @@ export default class Panel {
   /**
    * Reset.
    * @param {object} [params] Parameters.
-   * @param {number} [params.optionChosen] Index of previously chosen option.
+   * @param {number[]} [params.optionsChosen] Index of previously chosen options.
+   * @param {boolean} [params.completed] If true, disable options.
    */
   reset(params = {}) {
     if (this.params.animation && this.params.appearance === 'chat') {
@@ -227,12 +268,21 @@ export default class Panel {
       this.optionWrapper.classList.add('display-none');
     }
 
+    this.optionsChosen = params.optionsChosen ?? [];
+
     this.options.forEach((option, index) => {
       option.reset({
-        disabled: typeof params.optionChosen === 'number',
-        selected: params.optionChosen === index
+        disabled: this.optionsChosen.length > 0 || params.completed,
+        selected: this.optionsChosen.includes(index)
       });
     });
+
+    if (this.params.allowsMultipleChoices) {
+      this.buttonDone.disabled =
+        this.optionsChosen.length === 0 || params.completed;
+
+      this.buttonDone.classList.toggle('selected', params.completed);
+    }
   }
 
   /**
@@ -240,11 +290,25 @@ export default class Panel {
    * @param {number} index Index of option that was chosen.
    */
   handleOptionChosen(index) {
-    this.options.forEach((option) => {
-      option.disable();
-    });
+    if (this.optionsChosen.includes(index)) {
+      this.optionsChosen = this.optionsChosen.filter((optionIndex) => {
+        return optionIndex !== index;
+      });
+    }
+    else {
+      this.optionsChosen.push(index);
+    }
 
-    this.callbacks.onAnswerGiven(index);
+    if (!this.params.allowsMultipleChoices) {
+      this.options.forEach((option) => {
+        option.disable();
+      });
+
+      this.callbacks.onAnswerGiven(this.optionsChosen);
+    }
+    else {
+      this.buttonDone.disabled = this.optionsChosen.length === 0;
+    }
   }
 
   /**

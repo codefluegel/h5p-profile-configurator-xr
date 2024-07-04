@@ -88,6 +88,10 @@
                 ]
               },
               {
+                "label": "Allow multiple choices",
+                "description": "If checked, the user can select multiple answers for this question."
+              },
+              {
                 "label": "Odgovori",
                 "entity": "odgovor",
                 "field": {
@@ -258,6 +262,10 @@
         {
           "label": "Naslov rezultatov",
           "default": "Tukaj so vaši rezultati."
+        },
+        {
+          "label": "\"Stand by\" message",
+          "default": "Stand by."
         }
       ]
     }

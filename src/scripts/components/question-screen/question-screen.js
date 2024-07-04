@@ -62,13 +62,14 @@ export default class QuestionScreen {
         image: question.image,
         questionText: question.text,
         answerOptions: question.answers,
-        animation: this.params.isAnimationOn
+        animation: this.params.isAnimationOn,
+        allowsMultipleChoices: question.allowsMultipleChoices
       },
       {
-        onAnswerGiven: (optionIndex) => {
+        onAnswerGiven: (optionIndexes) => {
           this.callbacks.onAnswerGiven({
             questionIndex: questionIndex,
-            optionIndex: optionIndex
+            optionIndexes: optionIndexes
           });
         },
         onCompleted: () => {
@@ -161,9 +162,12 @@ export default class QuestionScreen {
     this.panels.forEach((panel, index) => {
       const answer = params.answersGiven
         .find((answer) => answer.question === index);
-      const optionChosen = (answer ?? {}).option;
+      const optionsChosen = (answer ?? {}).options;
 
-      panel.reset({ optionChosen: optionChosen });
+      panel.reset({
+        optionsChosen: optionsChosen,
+        completed: index < lastQuestionIndex
+      });
       panel.hide();
     });
   }

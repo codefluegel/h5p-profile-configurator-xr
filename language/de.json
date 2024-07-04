@@ -88,6 +88,10 @@
                 ]
               },
               {
+                "label": "Allow multiple choices",
+                "description": "If checked, the user can select multiple answers for this question."
+              },
+              {
                 "label": "Antworten",
                 "entity": "Antwort",
                 "field": {
@@ -102,7 +106,6 @@
                       "importantDescription": {
                         "description": "<ul><li>Füge die Bezeichnung eines Persönlichkeitstyps ein, dem +1 Punkte zugeordnet werden, wenn die Option gewählt wird.</li><li>Du kannst eine andere Punktzahl inklusive negativer Werte angeben, indem du zunächst ein Gleichheitszeichen (=) anhängst und dann die Punktzahl.</li><li>Bezeichnungen für Persönlichkeitstypen müssen durch ein Komma (,) voneinander getrennt werden.</li></ul>",
                         "example": "Apfel, Mango=4, Erdbeere=-1"
-
                       }
                     },
                     {
@@ -259,6 +262,10 @@
         {
           "label": "Ergebnistitel",
           "default": "Hier sind deine Ergebnisse."
+        },
+        {
+          "label": "\"Bitte warten\"-Nachricht",
+          "default": "Bitte warten."
         }
       ]
     }

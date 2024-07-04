@@ -207,6 +207,14 @@
               ]
             },
             {
+              "name": "allowsMultipleChoices",
+              "type": "boolean",
+              "label": "Allow multiple choices",
+              "description": "If checked, the user can select multiple answers for this question.",
+              "default": false,
+              "optional": true
+            },
+            {
               "name": "answers",
               "type": "list",
               "label": "Answers",
@@ -418,6 +426,12 @@
         "default": "Start"
       },
       {
+        "label": "Label of \"Done\" button",
+        "name": "done",
+        "type": "text",
+        "default": "Done"
+      },
+      {
         "label": "Text in progress bar",
         "name": "currentOfTotal",
         "type": "text",
@@ -479,7 +493,7 @@
       },
       {
         "name": "standby",
-        "label": "\"Stand\" by message",
+        "label": "\"Stand by\" message",
         "type": "text",
         "default": "Stand by."
       }

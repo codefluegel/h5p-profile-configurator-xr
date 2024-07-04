@@ -45,6 +45,7 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
         noQuestions: 'It seems that there is no valid question set. Try checking for valid personality names.',
         noPersonalities: 'It seems that there are not enough valid personalities set. Try checking for missing names or duplicate names.',
         start: 'Start',
+        done: 'Done',
         currentOfTotal: '@current of @total',
         skip: 'Skip',
         reset: 'Restart',
@@ -131,30 +132,37 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
     const dom = document.createElement('div');
     dom.classList.add('h5p-personality-quiz-xr-main');
 
-    this.content = new Content({
-      dictionary: this.dictionary,
-      globals: this.globals,
-      appearance: this.params.visual.appearance,
-      previousState: this.previousState,
-      personalities: this.params.personalities,
-      questions: this.params.questions,
-      colorProgressBar: this.params.visual.colorProgressBar,
-      isAnimationOn: this.params.visual.isAnimationOn,
-      showProgressBar: this.params.visual.showProgressBar,
-      resultScreen: this.params.resultScreen,
-      delegateResults: this.params.behaviour.delegateResults,
-      delegateRun: this.params.behaviour.delegateRun,
-      ...(this.params.showTitleScreen &&
-        {
-          titleScreen: {
-            titleScreenIntroduction:
-              this.params.titleScreen.titleScreenIntroduction,
-            titleScreenMedium:
-              this.params.titleScreen.titleScreenMedium
+    this.content = new Content(
+      {
+        dictionary: this.dictionary,
+        globals: this.globals,
+        appearance: this.params.visual.appearance,
+        previousState: this.previousState,
+        personalities: this.params.personalities,
+        questions: this.params.questions,
+        colorProgressBar: this.params.visual.colorProgressBar,
+        isAnimationOn: this.params.visual.isAnimationOn,
+        showProgressBar: this.params.visual.showProgressBar,
+        resultScreen: this.params.resultScreen,
+        delegateResults: this.params.behaviour.delegateResults,
+        delegateRun: this.params.behaviour.delegateRun,
+        ...(this.params.showTitleScreen &&
+          {
+            titleScreen: {
+              titleScreenIntroduction:
+                this.params.titleScreen.titleScreenIntroduction,
+              titleScreenMedium:
+                this.params.titleScreen.titleScreenMedium
+            }
           }
+        )
+      },
+      {
+        onReset: () => {
+          this.resetTask({ focus: true });
         }
-      )
-    });
+      }
+    );
 
     this.on('resize', () => {
       this.content.resize();

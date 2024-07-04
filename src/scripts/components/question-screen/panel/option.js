@@ -137,6 +137,14 @@ export default class Option {
   }
 
   /**
+   * Unselect.
+   */
+  deselect() {
+    this.buttonText.classList.remove('animate');
+    this.buttonText.classList.remove('selected');
+  }
+
+  /**
    * Reset.
    * @param {object} [params] Parameters.
    * @param {boolean} [params.selected] If true, set to selected.
