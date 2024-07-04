@@ -133,7 +133,7 @@ export default class Option {
       this.buttonText.classList.add('animate');
     }
 
-    this.buttonText.classList.add('selected');
+    this.button.classList.add('selected');
   }
 
   /**
@@ -141,7 +141,7 @@ export default class Option {
    */
   deselect() {
     this.buttonText.classList.remove('animate');
-    this.buttonText.classList.remove('selected');
+    this.button.classList.remove('selected');
   }
 
   /**
@@ -152,7 +152,7 @@ export default class Option {
    */
   reset(params = {}) {
     this.buttonText.classList.remove('animate');
-    this.buttonText.classList.remove('selected');
+    this.button.classList.remove('selected');
 
     if (params.selected) {
       this.select();
