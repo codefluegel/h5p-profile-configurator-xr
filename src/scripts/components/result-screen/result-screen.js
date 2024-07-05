@@ -124,7 +124,7 @@ export default class ResultScreen {
     this.dom.classList.add('fade-in');
     this.dom.classList.remove('display-none');
 
-    this.optionsChosen.classList.toggle('display-none', this.showOptionsChosen);
+    this.optionsChosen.classList.toggle('display-none', !this.showOptionsChosen);
 
     window.setTimeout(() => {
       this.dom.classList.remove('fade-in');
