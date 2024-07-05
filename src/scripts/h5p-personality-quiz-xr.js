@@ -45,11 +45,12 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
         noQuestions: 'It seems that there is no valid question set. Try checking for valid personality names.',
         noPersonalities: 'It seems that there are not enough valid personalities set. Try checking for missing names or duplicate names.',
         start: 'Start',
-        done: 'Done',
+        done: 'Proceed',
         currentOfTotal: '@current of @total',
         skip: 'Skip',
         reset: 'Restart',
-        notFinished: 'The quiz was not finished yet.'
+        notFinished: 'The quiz was not finished yet.',
+        yourChoices: 'Your choices',
       },
       a11y: {
         titleScreenWasOpened: 'The title screen was opened.',

@@ -151,6 +151,9 @@
           ]
         },
         {
+          "label": "Show chosen options"
+        },
+        {
           "label": "Show personality name"
         },
         {
@@ -223,6 +226,10 @@
           "default": "Start"
         },
         {
+          "label": "Label of \"Proceed\" button",
+          "default": "Proceed"
+        },
+        {
           "label": "Text in progress bar",
           "default": "@current of @total",
           "description": "@current and @total are placeholders and will be replaced with the respective values."
@@ -241,6 +248,11 @@
           "label": "Not finished",
           "default": "The quiz was not yet finished.",
           "description": "Used as report answer if results are requested prematurely."
+        },
+        {
+          "label": "Your choices",
+          "default": "Your choices",
+          "description": "Label for the user's choices on the result screen."
         }
       ]
     },

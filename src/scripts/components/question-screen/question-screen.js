@@ -189,4 +189,12 @@ export default class QuestionScreen {
       this.panels[panelIndex + 1].show({ focus: true });
     }
   }
+
+  /**
+   * Get state of chosen items in each panel.
+   * @returns {object[]} State of chosen items in each panel.
+   */
+  getChoices() {
+    return this.panels.map((panel) => panel.getChoices());
+  }
 }

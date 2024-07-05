@@ -18,6 +18,36 @@
     opacity: 0;
   }
 
+  .h5p-personality-quiz-xr-result-screen-options-chosen {
+    background-color: rgba(233, 239, 247, 0.8);
+    padding: 1rem;
+    width: 80%;
+
+    .h5p-personality-quiz-xr-result-screen-choices-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .h5p-personality-quiz-xr-result-screen-choices {
+      list-style: none;
+      padding: 0;
+
+      .h5p-personality-quiz-xr-result-screen-choices-list-item {
+        margin-bottom: 1rem;
+
+        .h5p-personality-quiz-xr-result-screen-choices-question {
+          font-size: 1.2rem;
+          margin: 0 0 0.5rem 0;
+        }
+
+        .h5p-personality-quiz-xr-result-screen-choices-options {
+          margin: 0;
+        }
+      }
+    }
+  }
+
   .h5p-personality-quiz-xr-result-screen-explanation {
     background-color: rgba(233, 239, 247, 0.8);
     padding: 1rem;

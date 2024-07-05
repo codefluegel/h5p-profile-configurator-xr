@@ -151,6 +151,9 @@
           ]
         },
         {
+          "label": "Zeige die gewählten Optionen"
+        },
+        {
           "label": "Zeige die Persönlichkeitsbezeichnung"
         },
         {
@@ -223,6 +226,10 @@
           "default": "Start"
         },
         {
+          "label": "Beschriftung des \"Weiter\"-Buttons",
+          "default": "Weiter"
+        },
+        {
           "label": "Text im Fortschrittsbalken",
           "default": "@current von @total",
           "description": "@current und @total sind Platzhalter und werden durch die entsprechenden Werte ersetzt."
@@ -241,6 +248,11 @@
           "label": "Noch nicht beendet",
           "default": "Das Quiz wurde noch nicht beendet.",
           "description": "Wird in Berichten als Antwort genutzt, falls die Ergebnisse vorzeitig abgefragt werden."
+        },
+        {
+          "label": "Deine Auswahl",
+          "default": "Deine Auswahl",
+          "description": "Beschriftung für die Auswahl der Nutzenden auf dem Ergebnisbildschirm."
         }
       ]
     },

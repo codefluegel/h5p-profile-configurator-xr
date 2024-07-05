@@ -317,6 +317,19 @@ export default class Panel {
   handleOptionCompleted() {
     this.callbacks.onCompleted();
   }
+
+  getChoices() {
+    return ({
+      question: this.params.questionText,
+      options: this.options.map((option, index) => {
+        return {
+          text: option.params.text,
+          image: option.params.image,
+          selected: option.isSelected()
+        };
+      })
+    });
+  }
 }
 
 /** @constant {number} DELAY_PER_CHAR_MS Time to delay showing the question per character. */

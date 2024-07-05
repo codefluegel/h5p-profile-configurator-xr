@@ -173,6 +173,7 @@ export default class Content {
       {
         ...(this.params.resultScreen),
         globals: this.params.globals,
+        dictionary: this.params.dictionary,
         l10n: {
           notFinished: this.params.dictionary.get('l10n.notFinished'),
           reset: this.params.dictionary.get('l10n.reset')
@@ -301,7 +302,10 @@ export default class Content {
 
     // Was already completed before
     if (!this.resultScreen.getCurrentState()) {
-      this.resultScreen.setContent(this.params.personalities[winnerIndex]);
+      this.resultScreen.setContent({
+        personality: this.params.personalities[winnerIndex],
+        choices: this.questionScreen.getChoices()
+      });
       this.params.globals.get('triggerXAPIEvent')('completed');
     }
 
@@ -371,11 +375,12 @@ export default class Content {
      * use saved result if present.
      */
     if (this.params.previousState.results) {
-      this.resultScreen.setContent(
-        this.params.personalities.find((personality) => {
+      this.resultScreen.setContent({
+        choices: this.questionScreen.getChoices(),
+        personality: this.params.personalities.find((personality) => {
           return personality.name === this.params.previousState.results;
         })
-      );
+      });
     }
 
     // Only use previous state for first call to reset after initialization

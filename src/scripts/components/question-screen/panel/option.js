@@ -34,6 +34,8 @@ export default class Option {
       this.params.animation = false;
     }
 
+    this.isSelectedState = false;
+
     this.buildDOM();
   }
 
@@ -134,6 +136,7 @@ export default class Option {
     }
 
     this.button.classList.add('selected');
+    this.isSelectedState = true;
   }
 
   /**
@@ -142,6 +145,15 @@ export default class Option {
   deselect() {
     this.buttonText.classList.remove('animate');
     this.button.classList.remove('selected');
+    this.isSelectedState = false;
+  }
+
+  /**
+   * Get selected state.
+   * @returns {boolean} True if selected. Else false.
+   */
+  isSelected() {
+    return this.isSelectedState;
   }
 
   /**
@@ -156,6 +168,9 @@ export default class Option {
 
     if (params.selected) {
       this.select();
+    }
+    else {
+      this.deselect();
     }
 
     if (params.disabled) {

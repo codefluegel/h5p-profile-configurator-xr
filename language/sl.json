@@ -151,6 +151,9 @@
           ]
         },
         {
+          "label": "Show chosen options"
+        },
+        {
           "label": "Prikaži tip osebnosti"
         },
         {
@@ -223,6 +226,10 @@
           "default": "Začetek"
         },
         {
+          "label": "Label of \"Proceed\" button",
+          "default": "Proceed"
+        },
+        {
           "label": "Besedilo indikatorja napredka",
           "default": "@current od @total",
           "description": "@current in @total sta spremenljivki."
@@ -241,6 +248,11 @@
           "label": "Ni zaključeno",
           "default": "Kviz še ni zaključen.",
           "description": "Sporočilo ob prezgodnjem poskusu zaključka kviza."
+        },
+        {
+          "label": "Your choices",
+          "default": "Your choices",
+          "description": "Label for the user's choices on the result screen."
         }
       ]
     },

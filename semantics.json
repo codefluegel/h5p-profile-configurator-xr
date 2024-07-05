@@ -306,6 +306,12 @@
         ]
       },
       {
+        "name": "displayOptionsChosen",
+        "type": "boolean",
+        "label": "Show chosen options",
+        "default": false
+      },
+      {
         "name": "displayTitle",
         "type": "boolean",
         "label": "Show personality name",
@@ -426,10 +432,10 @@
         "default": "Start"
       },
       {
-        "label": "Label of \"Done\" button",
+        "label": "Label of \"Proceed\" button",
         "name": "done",
         "type": "text",
-        "default": "Done"
+        "default": "Proceed"
       },
       {
         "label": "Text in progress bar",
@@ -458,6 +464,13 @@
         "type": "text",
         "default": "The quiz was not yet finished.",
         "description": "Used as report answer if results are requested prematurely."
+      },
+      {
+        "name": "yourChoices",
+        "label": "Your choices",
+        "type": "text",
+        "default": "Your choices",
+        "description": "Label for the user's choices on the result screen."
       }
     ]
   },
