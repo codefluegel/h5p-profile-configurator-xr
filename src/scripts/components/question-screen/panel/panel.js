@@ -20,7 +20,6 @@ export default class Panel {
    * @param {object} [params.answerOptions] Answer options.
    * @param {object} [params.image] Image data.
    * @param {object} [callbacks] Callbacks.
-   * @param {function} [callbacks.onAnswerGiven] Callback on answer given.
    * @param {function} [callbacks.onClicked] Callback when panel is completed.
    */
   constructor(params = {}, callbacks = {}) {
@@ -34,7 +33,6 @@ export default class Panel {
 
     this.callbacks = Util.extend({
       onOptionChosen: () => {},
-      onAnswerGiven: () => {},
       onCompleted: () => {}
     }, callbacks);
 
@@ -162,7 +160,6 @@ export default class Panel {
           option.disable();
         });
 
-        this.callbacks.onAnswerGiven(this.optionsChosen);
         this.handleOptionCompleted(true);
       });
 
@@ -265,12 +262,36 @@ export default class Panel {
   }
 
   /**
+   * Set completed state.
+   * @param {boolean} state State.
+   */
+  setCompleted(state) {
+    if (this.params.appearance !== 'chat') {
+      return;
+    }
+
+    this.isCompletedState = state;
+
+    if (state) {
+      this.options.forEach((option) => {
+        option.disable();
+      });
+    }
+
+    if (this.buttonDone) {
+      this.buttonDone.disabled = state;
+      this.buttonDone.classList.toggle('selected', state);
+    }
+  }
+
+  /**
    * Reset.
    * @param {object} [params] Parameters.
    * @param {number[]} [params.optionsChosen] Index of previously chosen options.
-   * @param {boolean} [params.completed] If true, disable options.
    */
   reset(params = {}) {
+    this.setCompleted(false);
+
     if (this.params.animation && this.params.appearance === 'chat') {
       this.questionText.innerHTML = '';
       this.questionText.append(this.typingDots);
@@ -280,17 +301,15 @@ export default class Panel {
     this.optionsChosen = params.optionsChosen ?? [];
 
     this.options.forEach((option, index) => {
+      const selected = this.optionsChosen.includes(index);
       option.reset({
-        disabled: this.optionsChosen.length > 0 || params.completed,
-        selected: this.optionsChosen.includes(index)
+        disabled: this.params.allowsMultipleChoices ? false : selected,
+        selected: selected
       });
     });
 
-    if (this.params.allowsMultipleChoices && this.params.appearance === 'chat') {
-      this.buttonDone.disabled =
-        this.optionsChosen.length === 0 || params.completed;
-
-      this.buttonDone.classList.toggle('selected', params.completed);
+    if (this.params.animation && this.params.appearance === 'chat') {
+      this.buttonDone?.classList.add('display-none');
     }
   }
 
@@ -320,10 +339,6 @@ export default class Panel {
     if (this.params.allowsMultipleChoices && this.params.appearance === 'chat') {
       this.buttonDone.disabled = this.optionsChosen.length === 0;
     }
-
-    if (!this.params.allowsMultipleChoices) {
-      this.callbacks.onAnswerGiven(this.optionsChosen);
-    }
   }
 
   /**
@@ -339,10 +354,22 @@ export default class Panel {
    * @param {boolean} [override] If true, always process.
    */
   handleOptionCompleted(override = false) {
+    if (override) {
+      this.setCompleted(true);
+    }
+
     if (!override && this.params.allowsMultipleChoices && this.params.appearance === 'chat') {
       return;
     }
     this.callbacks.onCompleted();
+  }
+
+  /**
+   * Determine whether panel was completed.
+   * @returns {boolean} True, if panel was completed, else false.
+   */
+  isCompleted() {
+    return this.isCompletedState;
   }
 
   getChoices() {

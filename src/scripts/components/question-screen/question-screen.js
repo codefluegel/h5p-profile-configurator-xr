@@ -12,7 +12,6 @@ export default class QuestionScreen {
    * @param {object} [params] Parameters.
    * @param {object[]} [params.questions] Question data.
    * @param {object} [callbacks] Callbacks.
-   * @param {function} [callbacks.onAnswerGiven] Callback on answer given.
    * @param {function} [callbacks.onCompleted] Callback when all is completed.
    */
   constructor(params = {}, callbacks = {}) {
@@ -21,7 +20,6 @@ export default class QuestionScreen {
     }, params);
 
     this.callbacks = Util.extend({
-      onAnswerGiven: () => {},
       onCompleted: () => {}
     }, callbacks);
 
@@ -74,12 +72,6 @@ export default class QuestionScreen {
           if (!question.allowsMultipleChoices) {
             this.navigationBar?.focusButton('next');
           }
-        },
-        onAnswerGiven: (optionIndexes) => {
-          this.callbacks.onAnswerGiven({
-            questionIndex: questionIndex,
-            optionIndexes: optionIndexes
-          });
         },
         onCompleted: () => {
           this.handlePanelCompleted(questionIndex);
@@ -136,47 +128,8 @@ export default class QuestionScreen {
     this.dom.classList.remove('display-none');
 
     if (params.focus) {
-      this.panels[this.currentPanelIndex].focus();
+      this.panels[this.currentPanelIndex]?.focus();
     }
-  }
-
-  /**
-   * Show.
-   * @param {object} [params] Parameters.
-   * @param {object[]} [params.answersGiven] Previously given answers.
-   * @param {boolean} [params.focus] If true, set focus to relevant panel.
-   */
-  showInAction(params = {}) {
-    params = Util.extend({ answersGiven: [] }, params);
-
-    const lastQuestionIndex = params.answersGiven.length;
-
-    this.panels.forEach((panel, index) => {
-      if (index === lastQuestionIndex) {
-        this.params.globals.get('triggerXAPIEvent')('progressed');
-      }
-
-      if (this.params.appearance === 'classic' && index === lastQuestionIndex) {
-        panel.show({ focus: params.focus });
-      }
-      else if (this.params.appearance === 'chat' && index < lastQuestionIndex) {
-        panel.show({
-          showInstantly: true,
-          focus: false
-        });
-      }
-      else if (this.params.appearance === 'chat' && index === lastQuestionIndex) {
-        panel.show({
-          showInstantly: params.showInstantly,
-          focus: params.focus
-        });
-      }
-      else {
-        panel.hide();
-      }
-    });
-
-    this.show();
   }
 
   /**
@@ -190,27 +143,34 @@ export default class QuestionScreen {
    * Reset.
    * @param {object} [params] Parameters.
    * @param {object[]} [params.answersGiven] Previously given answers.
+   * @param {number} [params.panelIndex] Previously viewed panel index.
+   * @param {boolean[]} [params.panelsCompleted] Panels completed.
    */
   reset(params = {}) {
-    params = Util.extend({ answersGiven: [] }, params);
-
-    this.currentPanelIndex = params.answersGiven.length;
-
-    this.progressBar.setProgress(this.currentPanelIndex + 1);
+    params = Util.extend({
+      answersGiven: [],
+      panelIndex: 0,
+      panelsCompleted: []
+    }, params);
 
     this.panels.forEach((panel, index) => {
-      const answer = params.answersGiven
-        .find((answer) => answer.question === index);
-      const optionsChosen = (answer ?? {}).options;
-
-      panel.reset({
-        optionsChosen: optionsChosen,
-        completed: index < this.currentPanelIndex
-      });
       panel.hide();
+      panel.reset();
     });
 
-    this.updateNavigationButtons();
+    params.answersGiven.forEach((answer) => {
+      this.panels[answer.question].reset({
+        optionsChosen: answer.options
+      });
+    });
+
+    params.panelsCompleted.forEach((completedState, index) => {
+      this.panels[index].setCompleted(completedState);
+    });
+
+    this.currentPanelIndex = params.panelIndex ?? params.answersGiven.length;
+
+    this.moveToPanel(this.currentPanelIndex);
   }
 
   /**
@@ -252,14 +212,23 @@ export default class QuestionScreen {
       return;
     }
 
-    if (
-      this.params.appearance === 'chat'
-      && panelIndex <= this.currentPanelIndex
-    ) {
-      return;
+    if (this.params.appearance === 'chat') {
+      if (panelIndex < this.currentPanelIndex) {
+        return;
+      }
+
+      for (let i = 0; i < panelIndex; i++) {
+        this.panels[i].show({
+          focus: false,
+          showInstantly: true
+        });
+
+        this.panels[i].setCompleted(true);
+      }
     }
 
     if (panelIndex >= this.panels.length) {
+      this.currentPanelIndex = this.panels.length; // Treating end screen as a panel
       this.callbacks.onCompleted();
     }
     else {
@@ -276,6 +245,7 @@ export default class QuestionScreen {
       }
 
       this.panels[panelIndex].show({ focus: true });
+      this.params.globals.get('triggerXAPIEvent')('progressed');
     }
   }
 
@@ -295,5 +265,21 @@ export default class QuestionScreen {
    */
   getChoices() {
     return this.panels.map((panel) => panel.getChoices());
+  }
+
+  /**
+   * Get panels completed.
+   * @returns {boolean[]} Panels completed.
+   */
+  getPanelsCompleted() {
+    return this.panels.map((panel) => panel.isCompleted());
+  }
+
+  /**
+   * Get current panel index.
+   * @returns {number} Current panel index.
+   */
+  getCurrentPanelIndex() {
+    return this.currentPanelIndex;
   }
 }
