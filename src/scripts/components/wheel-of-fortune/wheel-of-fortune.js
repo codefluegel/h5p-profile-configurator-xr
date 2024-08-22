@@ -2,6 +2,52 @@ import Util from '@services/util.js';
 import Color from 'color';
 import './wheel-of-fortune.scss';
 
+/** @constant {number} FOCUS_TIMEOUT_MS Timeout for focussing. */
+const FOCUS_TIMEOUT_MS = 100;
+
+/** @constant {number} DEGREES_IN_CIRCLE Number of degrees in a circle. */
+const DEGREES_IN_CIRCLE = 360;
+
+/** @constant {number} PALENESS_FACTOR Factor to mix a color with white. */
+const PALENESS_FACTOR = 0.75;
+
+/** @constant {number} CLOSE_TO_TWO Number close to two to cause inprecision. */
+const CLOSE_TO_TWO = 1.99999;
+
+
+/** @constant {number} CENTER Center point in percent. */
+const CENTER = 50;
+
+/** @constant {number} RADIUS Radius in percent. */
+const RADIUS = 50;
+
+/** @constant {number} RADIUS_DIVISOR Tweak size of indicator. */
+const RADIUS_DIVISOR = 7.5;
+
+/** @constant {number} INDICATOR_RADIUS Indicator radius in percent. */
+const INDICATOR_RADIUS = RADIUS / RADIUS_DIVISOR;
+
+/** @constant {number} INDICATOR_ROTATION Indicator rotation offset. */
+const INDICATOR_ROTATION_DEG = -90;
+
+/** @constant {number} LABEL_OFFSET Label offset. */
+const LABEL_OFFSET = 5;
+
+/** @constant {number} LABEL_TEXT_SIZE_PX Label text size in px (SVG viewport). */
+const LABEL_TEXT_SIZE_PX = 6;
+
+/** @constant {number} SPIN_ROUNDS Number of rounds to spin. */
+const SPIN_ROUNDS = 5;
+
+/** @constant {number} SPIN_UPDATE_INTERVAL_MS Spinning update interval in MS. */
+const SPIN_UPDATE_INTERVAL_MS = 50;
+
+/** @constant {number} SPIN_DURATION_MS Total spin duration. */
+const SPIN_DURATION_MS = 5000;
+
+/** @constant {number} LABEL_LABEL_TEXT_SIZE_PX Label text size in px (SVG viewport). */
+const LABEL_LABEL_TEXT_SIZE_PX = 4;
+
 export default class WheelOfFortune {
 
   /**
@@ -72,8 +118,9 @@ export default class WheelOfFortune {
       const backdrop = this.dom.querySelector('.wheel-of-fortune-backdrop');
       const maxSize = (
         backdrop.getBoundingClientRect().width -
-        WheelOfFortune.INDICATOR_RADIUS -
-        WheelOfFortune.LABEL_OFFSET
+          INDICATOR_RADIUS -
+          LABEL_OFFSET
+      // eslint-disable-next-line no-magic-numbers
       ) / 2;
 
       this.wheel.style.clipPath = `circle(${maxSize}px at 50% 50%)`;
@@ -138,7 +185,7 @@ export default class WheelOfFortune {
   focus() {
     window.setTimeout(() => {
       this.button.focus();
-    }, 100); // Ensure that aria start message is read first
+    }, FOCUS_TIMEOUT_MS); // Ensure that aria start message is read first
   }
 
   /**
@@ -151,17 +198,18 @@ export default class WheelOfFortune {
       return;
     }
 
-    const min = 360 / this.params.segments.length * segmentIndex;
-    const max = 360 / this.params.segments.length * (segmentIndex + 1);
+    const min = DEGREES_IN_CIRCLE / this.params.segments.length * segmentIndex;
+    const max = DEGREES_IN_CIRCLE / this.params.segments.length * (segmentIndex + 1);
 
     // Prevent stop on border of two segments
+    // eslint-disable-next-line no-magic-numbers
     let segmentAngle = Math.random() * (max - min - 2) + min + 1;
 
     this.onDone = () => {
       onDone?.(segmentIndex);
     };
 
-    this.spin({ change: WheelOfFortune.SPIN_ROUNDS * 360 + segmentAngle });
+    this.spin({ change: SPIN_ROUNDS * DEGREES_IN_CIRCLE + segmentAngle });
   }
 
   /**
@@ -175,9 +223,9 @@ export default class WheelOfFortune {
   spin(params = {}) {
     params = Util.extend({
       start: 0,
-      change: WheelOfFortune.SPIN_ROUNDS * 360,
+      change: SPIN_ROUNDS * DEGREES_IN_CIRCLE,
       currentTime: 0,
-      duration: WheelOfFortune.SPIN_DURATION_MS
+      duration: SPIN_DURATION_MS
     }, params);
 
     if (params.currentTime === 0) {
@@ -201,11 +249,11 @@ export default class WheelOfFortune {
       this.spin({
         start: params.start,
         change: params.change,
-        currentTime: params.currentTime + WheelOfFortune.SPIN_UPDATE_INTERVAL_MS,
+        currentTime: params.currentTime + SPIN_UPDATE_INTERVAL_MS,
         duration: params.duration,
         onDone: params.onDone
       });
-    }, WheelOfFortune.SPIN_UPDATE_INTERVAL_MS);
+    }, SPIN_UPDATE_INTERVAL_MS);
   }
 
   /**
@@ -213,7 +261,7 @@ export default class WheelOfFortune {
    * @returns {number} Current segment index.
    */
   getSegmentIndex() {
-    return Math.floor(this.getAngle() / (360 / this.params.segments.length));
+    return Math.floor(this.getAngle() / (DEGREES_IN_CIRCLE / this.params.segments.length));
   }
 
   /**
@@ -222,8 +270,8 @@ export default class WheelOfFortune {
    */
   getAngle() {
     return (
-      ((this.currentAngle ?? 0) - WheelOfFortune.INDICATOR_ROTATION_DEG) % 360 + 360
-    ) % 360;
+      ((this.currentAngle ?? 0) - INDICATOR_ROTATION_DEG) % DEGREES_IN_CIRCLE + DEGREES_IN_CIRCLE
+    ) % DEGREES_IN_CIRCLE;
   }
 
   /**
@@ -236,8 +284,8 @@ export default class WheelOfFortune {
     }
 
     this.currentAngle = (
-      (degrees + WheelOfFortune.INDICATOR_ROTATION_DEG) % 360 + 360
-    ) % 360;
+      (degrees + INDICATOR_ROTATION_DEG) % DEGREES_IN_CIRCLE + DEGREES_IN_CIRCLE
+    ) % DEGREES_IN_CIRCLE;
 
     this.wheelSegments.style.transform =
       `translate(50%, 50%) rotate(${this.currentAngle}deg)`;
@@ -295,18 +343,20 @@ export default class WheelOfFortune {
     // Backdrop circle (for transparent images and clipping)
     const circle = document.createElement('circle');
     circle.classList.add('wheel-of-fortune-backdrop');
-    circle.setAttribute('cx', WheelOfFortune.CENTER);
-    circle.setAttribute('cy', WheelOfFortune.CENTER);
-    circle.setAttribute('r', WheelOfFortune.RADIUS);
+    circle.setAttribute('cx', CENTER);
+    circle.setAttribute('cy', CENTER);
+    circle.setAttribute('r', RADIUS);
     wheel.append(circle);
 
     // Add all segments to wheel
     const wheelSegments = this.buildSegmentWrapper();
     for (let i = 0; i < params.segments.length; i++) {
       const segment = this.buildSegment({
+        // eslint-disable-next-line no-magic-numbers
         startAngle: i * 2 * Math.PI / params.segments.length,
+        // eslint-disable-next-line no-magic-numbers
         endAngle: (i + 1) * 2 * Math.PI / params.segments.length,
-        whiteValue: 0.75 / params.segments.length * (i + 1),
+        whiteValue: PALENESS_FACTOR / params.segments.length * (i + 1),
         text: params.segments[i].text,
         image: params.segments[i].image,
         uuid: this.params.segments[i].uuid
@@ -347,7 +397,7 @@ export default class WheelOfFortune {
   buildSegment(params = {}) {
     params = Util.extend({
       startAngle: 0,
-      endAngle: Math.PI * 1.99999, // 360° exactly would reault in 0°
+      endAngle: Math.PI * CLOSE_TO_TWO, // 360° exactly would reault in 0°
       fillColor: 'rgb(26 115 217)',
       whiteValue: 0
     }, params);
@@ -358,7 +408,7 @@ export default class WheelOfFortune {
       params.endAngle = tmp;
     }
 
-    params.endAngle = Math.min(params.endAngle, Math.PI * 1.99999);
+    params.endAngle = Math.min(params.endAngle, Math.PI * CLOSE_TO_TWO);
     params.coverAngle = params.endAngle - params.startAngle;
 
     const group = document.createElement('g');
@@ -367,16 +417,27 @@ export default class WheelOfFortune {
     segment.classList.add('wheel-of-fortune-segment');
 
     const start = 'M 0 0';
-    const line = `L ${Math.cos(params.startAngle) * WheelOfFortune.RADIUS} ${-Math.sin(params.startAngle) * WheelOfFortune.RADIUS}`;
-    const large = params.endAngle - params.startAngle <= Math.PI ? 0 : 1;
-    const arch = `A ${WheelOfFortune.RADIUS} ${WheelOfFortune.RADIUS} 0 ${large} 0 ${Math.cos(params.endAngle) * WheelOfFortune.RADIUS} ${-Math.sin(params.endAngle) * WheelOfFortune.RADIUS}`;
 
+    const lineX = Math.cos(params.startAngle) * RADIUS;
+    const lineY = -Math.sin(params.startAngle) * RADIUS;
+    const line = `L ${lineX} ${lineY}`;
+
+    const archRX = RADIUS;
+    const archRY = RADIUS;
+    const archAngle = 0;
+    const archLargeFlag = params.endAngle - params.startAngle <= Math.PI ?
+      0 :
+      1;
+    const archSweepFlag = 0;
+    const archX = Math.cos(params.endAngle) * RADIUS;
+    const archY = -Math.sin(params.endAngle) * RADIUS;
+    const arch = `A ${archRX} ${archRY} ${archAngle} ${archLargeFlag} ${archSweepFlag} ${archX} ${archY}`;
+
+    // Cmp. https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
     segment.setAttribute('d', `${start} ${line} ${arch} Z`);
 
-    const backgroundColor = Color(params.fillColor)
-      .mix(Color('#ffffff'), params.whiteValue);
-
-    if (params.image) {
+    const backgroundColor = Color(params.fillColor).mix(Color('#ffffff'), params.whiteValue);
+    if (Object.keys(params.image ?? {}).length) {
       segment.setAttribute('fill', `url(#wheel-of-fortune-segment-image-${params.uuid})`);
     }
     else {
@@ -385,15 +446,16 @@ export default class WheelOfFortune {
 
     group.append(segment);
 
-    if (!params.image && params.text) {
+    if (!Object.keys(params.image ?? {}).length && params.text) {
       const text = document.createElement('text');
       text.setAttribute('x',
-        WheelOfFortune.INDICATOR_RADIUS + WheelOfFortune.LABEL_OFFSET
+        INDICATOR_RADIUS + LABEL_OFFSET
       );
-      text.setAttribute('y', `${WheelOfFortune.LABEL_LABEL_TEXT_SIZE_PX / 4}`);
+      text.setAttribute('y', `${LABEL_LABEL_TEXT_SIZE_PX}`);
       text.innerText = params.text;
-      text.style.font = `${WheelOfFortune.LABEL_TEXT_SIZE_PX}px sans-serif`;
+      text.style.font = `${LABEL_TEXT_SIZE_PX}px sans-serif`;
 
+      // eslint-disable-next-line no-magic-numbers
       const textAngle = (-2 * params.startAngle - params.coverAngle) * 90 / Math.PI;
       text.style.transform = `rotate(${textAngle}deg)`;
 
@@ -419,48 +481,22 @@ export default class WheelOfFortune {
 
     const triangle = document.createElement('polygon');
     triangle.classList.add('wheel-of-fortune-indicator-knob');
-    const points = [
-      `${WheelOfFortune.CENTER - WheelOfFortune.INDICATOR_RADIUS} ${WheelOfFortune.CENTER}`,
-      `${WheelOfFortune.CENTER + WheelOfFortune.INDICATOR_RADIUS} ${WheelOfFortune.CENTER}`,
-      `${WheelOfFortune.CENTER} ${WheelOfFortune.CENTER - (WheelOfFortune.INDICATOR_RADIUS + WheelOfFortune.LABEL_OFFSET - 1)}`
-    ];
+
+    const point1 = `${CENTER - INDICATOR_RADIUS} ${CENTER}`;
+    const point2 = `${CENTER + INDICATOR_RADIUS} ${CENTER}`;
+    const point3 = `${CENTER} ${CENTER - (INDICATOR_RADIUS + LABEL_OFFSET - 1)}`;
+    const points = [point1, point2, point3];
+
     triangle.setAttribute('points', points.join(', '));
     indicator.append(triangle);
 
     const circle = document.createElement('circle');
     circle.classList.add('wheel-of-fortune-indicator');
-    circle.setAttribute('cx', WheelOfFortune.CENTER);
-    circle.setAttribute('cy', WheelOfFortune.CENTER);
-    circle.setAttribute('r', WheelOfFortune.INDICATOR_RADIUS);
+    circle.setAttribute('cx', CENTER);
+    circle.setAttribute('cy', CENTER);
+    circle.setAttribute('r', INDICATOR_RADIUS);
     indicator.append(circle);
 
     return indicator;
   }
 }
-
-/** @constant {number} CENTER Center point in percent. */
-WheelOfFortune.CENTER = 50;
-
-/** @constant {number} RADIUS Radius in percent. */
-WheelOfFortune.RADIUS = 50;
-
-/** @constant {number} INDICATOR_RADIUS Indicator radius in percent. */
-WheelOfFortune.INDICATOR_RADIUS = WheelOfFortune.RADIUS / 7.5;
-
-/** @constant {number} INDICATOR_ROTATION Indicator rotation offset. */
-WheelOfFortune.INDICATOR_ROTATION_DEG = -90;
-
-/** @constant {number} LABEL_OFFSET Label offset. */
-WheelOfFortune.LABEL_OFFSET = 5;
-
-/** @constant {number} LABEL_TEXT_SIZE_PX Label text size in px (SVG viewport). */
-WheelOfFortune.LABEL_TEXT_SIZE_PX = 6;
-
-/** @constant {number} SPIN_ROUNDS Number of rounds to spin. */
-WheelOfFortune.SPIN_ROUNDS = 5;
-
-/** @constant {number} SPIN_UPDATE_INTERVAL_MS Spinning update interval in MS. */
-WheelOfFortune.SPIN_UPDATE_INTERVAL_MS = 50;
-
-/** @constant {number} SPIN_DURATION_MS Total spin duration. */
-WheelOfFortune.SPIN_DURATION_MS = 5000;

@@ -9,6 +9,15 @@ import XAPI from '@mixins/xapi.js';
 import Color from 'color';
 import '@styles/h5p-personality-quiz-xr.scss';
 
+/** @constant {number} HOVER_COLOR_LIGHTNESS_DELTA Factor to lighten/darken a hover color. */
+const HOVER_COLOR_LIGHTNESS_DELTA = 0.25;
+
+/** @constant {number} ACTIVE_COLOR_LIGHTNESS_DELTA Factor to lighten/darken an active color. */
+const ACTIVE_COLOR_LIGHTNESS_DELTA = 0.37;
+
+/** @constant {number} PALE_COLOR_FACTOR Factor to mix a color with white. */
+const PALE_COLOR_FACTOR = 0.9;
+
 export default class PersonalityQuizXR extends H5P.EventDispatcher {
   /**
    * @class
@@ -43,6 +52,7 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
       },
       l10n: {
         noQuestions: 'It seems that there is no valid question set. Try checking for valid personality names.',
+        // eslint-disable-next-line max-len
         noPersonalities: 'It seems that there are not enough valid personalities set. Try checking for missing names or duplicate names.',
         start: 'Start',
         done: 'Proceed',
@@ -198,22 +208,22 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
       '#000000';
 
     const colorHover = (colorBase.isDark()) ?
-      colorBase.darken(0.25) :
-      colorBase.lighten(0.25);
+      colorBase.darken(HOVER_COLOR_LIGHTNESS_DELTA) :
+      colorBase.lighten(HOVER_COLOR_LIGHTNESS_DELTA);
 
     const colorActive = (colorBase.isDark()) ?
-      colorBase.darken(0.37) :
-      colorBase.lighten(0.37);
+      colorBase.darken(ACTIVE_COLOR_LIGHTNESS_DELTA) :
+      colorBase.lighten(ACTIVE_COLOR_LIGHTNESS_DELTA);
 
     const colorActiveHover = (colorActive.isDark()) ?
-      colorActive.darken(0.25) :
-      colorActive.lighten(0.25);
+      colorActive.darken(HOVER_COLOR_LIGHTNESS_DELTA) :
+      colorActive.lighten(HOVER_COLOR_LIGHTNESS_DELTA);
 
     const colorTextActive = (colorActive.isDark()) ?
       '#ffffff' :
       '#000000';
 
-    const colorPale = colorBase.mix(Color('#ffffff'), 0.9);
+    const colorPale = colorBase.mix(Color('#ffffff'), PALE_COLOR_FACTOR);
 
     this.dom.style.setProperty('--color-button-background', colorBase.hex());
     this.dom.style.setProperty('--color-button-text', colorText);

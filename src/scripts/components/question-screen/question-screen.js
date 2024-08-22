@@ -129,13 +129,13 @@ export default class QuestionScreen {
 
   /**
    * Show
+   * @param {object} [params] Parameters.
+   * @param {boolean} [params.focus] If true, set focus to relevant panel.
    */
   show(params = {}) {
     this.dom.classList.remove('display-none');
 
     if (params.focus) {
-
-
       this.panels[this.currentPanelIndex].focus();
     }
   }
@@ -239,8 +239,8 @@ export default class QuestionScreen {
       panelsAnsweredState.length :
       panelsAnsweredState.indexOf(false);
 
-      this.navigationBar.toggleButtonEnabled('previous', this.currentPanelIndex !== 0);
-      this.navigationBar.toggleButtonEnabled('next', this.currentPanelIndex < maxPanelAnsweredIndex);
+    this.navigationBar.toggleButtonEnabled('previous', this.currentPanelIndex !== 0);
+    this.navigationBar.toggleButtonEnabled('next', this.currentPanelIndex < maxPanelAnsweredIndex);
   }
 
   /**

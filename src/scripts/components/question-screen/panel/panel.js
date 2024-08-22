@@ -2,6 +2,12 @@ import Util from '@services/util.js';
 import Option from './option.js';
 import './panel.scss';
 
+/** @constant {number} NUMBER_OF_DOTS Number of dots in bubble. */
+const NUMBER_OF_DOTS = 3;
+
+/** @constant {number} FOCUS_TIMEOUT_MS Timeout for focussing. */
+const FOCUS_TIMEOUT_MS = 50;
+
 export default class Panel {
 
   /**
@@ -74,7 +80,7 @@ export default class Panel {
       this.typingDots.classList.add('typing-animation-dots');
       this.questionText.append(this.typingDots);
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < NUMBER_OF_DOTS; i++) {
         const typingDot = document.createElement('div');
         typingDot.classList.add('typing-animation-dot');
         this.typingDots.append(typingDot);
@@ -202,7 +208,7 @@ export default class Panel {
           if (params.focus) {
             window.setTimeout(() => {
               this.focus();
-            }, 50); // Prevent jumping if focus called before resize
+            }, FOCUS_TIMEOUT_MS); // Prevent jumping if focus called before resize
           }
 
         }, Panel.DELAY_FOR_ANSWER_OPTIONS_MS);
@@ -290,7 +296,7 @@ export default class Panel {
 
   /**
    * Handle option chosen.
-   * @param {number} index Index of option that was chosen.
+   * @param {number} indexChosen Index of option that was chosen.
    */
   handleOptionChosen(indexChosen) {
     this.options.forEach((option, index) => {

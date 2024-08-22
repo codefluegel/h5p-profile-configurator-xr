@@ -106,6 +106,7 @@ export default class ProgressBar {
       .replace(/@total/g, this.params.valueMax);
 
     this.dom.style.setProperty(
+      // eslint-disable-next-line no-magic-numbers
       '--bar-width', progress / this.params.valueMax * 100
     );
     this.dom.setAttribute('aria-valuenow', progress);

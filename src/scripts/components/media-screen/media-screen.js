@@ -1,6 +1,9 @@
 import Util from '@services/util.js';
 import './media-screen.scss';
 
+/** @constant {number} SCREENREADER_TIMEOUT_MS Timeout for screen reader. */
+const SCREENREADER_TIMEOUT_MS = 100;
+
 /** Class representing a media screen */
 export default class MediaScreen {
   /**
@@ -297,7 +300,7 @@ export default class MediaScreen {
       if (params.focusButton && this.buttons.length) {
         this.buttons[0].focus();
       }
-    }, 100);
+    }, SCREENREADER_TIMEOUT_MS);
   }
 
   /**
