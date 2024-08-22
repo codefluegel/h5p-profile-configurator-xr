@@ -198,13 +198,11 @@
         },
         {
           "label": "Barva gumbov",
-          "description": "Določi barvo obrobe gumbov in barvo polnila animacij v kvizu.",
-          "default": "#1a73d9"
+          "description": "Določi barvo obrobe gumbov in barvo polnila animacij v kvizu."
         },
         {
           "label": "Barva indikatorja napredka",
-          "description": "Določi barvo indikatorja napredka.",
-          "default": "#1a73d9"
+          "description": "Določi barvo indikatorja napredka."
         }
       ]
     },
