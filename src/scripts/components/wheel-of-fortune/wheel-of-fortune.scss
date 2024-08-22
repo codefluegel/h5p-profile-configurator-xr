@@ -8,14 +8,14 @@
   transition: opacity ease-in-out 1s;
 
   .wheel-of-fortune-wheel {
+    --color-wheel-of-fortune-indicator: #eeeeee;
+
     height: 25rem;
     width: 100%;
 
     .wheel-of-fortune-backdrop {
       fill: #ffffff;
     }
-
-    --color-wheel-of-fortune-indicator: #eeeeee;
 
     .wheel-of-fortune-segments {
       transform: translate(50%, 50%);
