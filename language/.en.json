@@ -104,8 +104,7 @@
                       "label": "Personalities",
                       "description": "A comma separated list of personality names associated with this answer.",
                       "importantDescription": {
-                        "description": "<ul><li>Add the name of a personality that should receive a score of +1 when the option is chosen.</li><li>You can specify other scores including negative values by adding an equality sign (=) followed by the score.</li><li>Personality names need to be separate by a comma (,).</li></ul>",
-                        "example": "apple, mango=4, strawberry=-1"
+                        "description": "<ul><li>Add the name of a personality that should receive a score of +1 when the option is chosen.</li><li>You can specify other scores including negative values by adding an equality sign (=) followed by the score.</li><li>Personality names need to be separate by a comma (,).</li></ul>"
                       }
                     },
                     {
@@ -113,7 +112,7 @@
                       "fields": [
                         {
                           "label": "Image",
-                          "description": "Optional image. All options for this question need an image in order to show up."
+                          "description": "Optional image. All options for this question need an image in order to show up. No images will be shown in chat mode."
                         },
                         {
                           "label": "Alternative text",
@@ -198,13 +197,22 @@
         },
         {
           "label": "Base color",
-          "description": "Set the base color that will determine the color for the buttons, the button fill animations and some other visual elements.",
-          "default": "#1a73d9"
+          "description": "Set the base color that will determine the color for the buttons, the button fill animations and some other visual elements."
         },
         {
           "label": "Progressbar Color",
-          "description": "Set the color of the progress bar.",
-          "default": "#1a73d9"
+          "description": "Set the color of the progress bar."
+        }
+      ]
+    },
+    {
+      "label": "Behavioural settings",
+      "fields": [
+        {
+          "label": "Allow to review previous answers"
+        },
+        {
+          "label": "Dummy"
         }
       ]
     },
@@ -245,6 +253,11 @@
           "description": "Label of \"Restart\" button."
         },
         {
+          "label": "Review answers",
+          "default": "Review answers",
+          "description": "Label of \"Review answers\" button."
+        },
+        {
           "label": "Not finished",
           "default": "The quiz was not yet finished.",
           "description": "Used as report answer if results are requested prematurely."
@@ -276,8 +289,16 @@
           "default": "Here are your results."
         },
         {
-          "label": "\"Stand\" by message",
+          "label": "\"Stand by\" message",
           "default": "Stand by."
+        },
+        {
+          "label": "Previous question",
+          "default": "Previous question"
+        },
+        {
+          "label": "Next question",
+          "default": "Next question"
         }
       ]
     }

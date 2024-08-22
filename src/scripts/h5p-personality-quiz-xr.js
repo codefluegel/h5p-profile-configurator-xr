@@ -49,6 +49,7 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
         currentOfTotal: '@current of @total',
         skip: 'Skip',
         reset: 'Restart',
+        review: 'Review answers',
         notFinished: 'The quiz was not finished yet.',
         yourChoices: 'Your choices',
       },
@@ -57,9 +58,12 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
         wheelStarted: 'The wheel of fortune started spinning. Please wait a moment.',
         progressBar: 'Progress bar',
         resultsTitle: 'Here are your results.',
-        standby: 'Stand by.'
+        standby: 'Stand by.',
+        previous: 'Previous question',
+        next: 'Next question'
       },
       behaviour: {
+        allowReview: false,
         delegateResults: false // Used for external override
       }
     }, params);
@@ -147,6 +151,7 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
         resultScreen: this.params.resultScreen,
         delegateResults: this.params.behaviour.delegateResults,
         delegateRun: this.params.behaviour.delegateRun,
+        allowReview: this.params.behaviour.allowReview && this.params.visual.appearance === 'classic',
         ...(this.params.showTitleScreen &&
           {
             titleScreen: {
@@ -200,6 +205,10 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
       colorBase.darken(0.37) :
       colorBase.lighten(0.37);
 
+    const colorActiveHover = (colorActive.isDark()) ?
+      colorActive.darken(0.25) :
+      colorActive.lighten(0.25);
+
     const colorTextActive = (colorActive.isDark()) ?
       '#ffffff' :
       '#000000';
@@ -210,6 +219,7 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
     this.dom.style.setProperty('--color-button-text', colorText);
     this.dom.style.setProperty('--color-button-hover', colorHover);
     this.dom.style.setProperty('--color-button-active', colorActive);
+    this.dom.style.setProperty('--color-button-active-hover', colorActiveHover);
     this.dom.style.setProperty('--color-button-text-active', colorTextActive);
     this.dom.style.setProperty('--color-button-pale', colorPale);
   }

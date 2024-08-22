@@ -209,6 +209,17 @@
       ]
     },
     {
+      "label": "Verhaltenseinstellungen",
+      "fields": [
+        {
+          "label": "Erlaube das Durchsehen vorheriger Antworten"
+        },
+        {
+          "label": "Dummy"
+        }
+      ]
+    },
+    {
       "label": "Bedienoberfläche",
       "fields": [
         {
@@ -245,6 +256,11 @@
           "description": "Beschriftung des \"Neustart\"-Buttons."
         },
         {
+          "label": "Antworten durchsehen",
+          "default": "Antworten durchsenen",
+          "description": "Beschriftung des \"Antworten durchsehen\"-Buttons."
+        },
+        {
           "label": "Noch nicht beendet",
           "default": "Das Quiz wurde noch nicht beendet.",
           "description": "Wird in Berichten als Antwort genutzt, falls die Ergebnisse vorzeitig abgefragt werden."
@@ -278,6 +294,14 @@
         {
           "label": "\"Bitte warten\"-Nachricht",
           "default": "Bitte warten."
+        },
+        {
+          "label": "Vorherige Frage",
+          "default": "Vorherige Frage"
+        },
+        {
+          "label": "Nächste Frage",
+          "default": "Nächste Frage"
         }
       ]
     }

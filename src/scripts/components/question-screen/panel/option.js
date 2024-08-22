@@ -35,6 +35,7 @@ export default class Option {
     }
 
     this.isSelectedState = false;
+    this.isDisabledState = false;
 
     this.buildDOM();
   }
@@ -56,8 +57,14 @@ export default class Option {
 
     this.button.addEventListener('click', () => {
       window.setTimeout(() => {
+        if (this.isSelected()) {
+          this.deselect();
+        }
+        else {
+          this.select({ animate: this.params.animation });
+        }
+
         if (this.params.animation) {
-          this.button.classList.add('animate');
           this.callbacks.onClicked();
         }
         else {
@@ -68,6 +75,7 @@ export default class Option {
     });
 
     this.button.addEventListener('animationend', () => {
+      this.toggleAnimation(false);
       this.callbacks.onCompleted();
     });
 
@@ -132,7 +140,7 @@ export default class Option {
    */
   select(params = {}) {
     if (params.animate) {
-      this.buttonText.classList.add('animate');
+      this.toggleAnimation(true);
     }
 
     this.button.classList.add('selected');
@@ -143,7 +151,7 @@ export default class Option {
    * Unselect.
    */
   deselect() {
-    this.buttonText.classList.remove('animate');
+    this.toggleAnimation(false);
     this.button.classList.remove('selected');
     this.isSelectedState = false;
   }
@@ -156,6 +164,11 @@ export default class Option {
     return this.isSelectedState;
   }
 
+  toggleAnimation(state) {
+    const targetState = state ?? !this.buttonText.classList.contains('animate');
+    this.buttonText.classList.toggle('animate', targetState);
+  }
+
   /**
    * Reset.
    * @param {object} [params] Parameters.
@@ -163,7 +176,7 @@ export default class Option {
    * @param {boolean} [params.disabled] If true, set to disabled.
    */
   reset(params = {}) {
-    this.buttonText.classList.remove('animate');
+    this.toggleAnimation(false);
     this.button.classList.remove('selected');
 
     if (params.selected) {
@@ -186,12 +199,22 @@ export default class Option {
    */
   enable() {
     this.button.removeAttribute('disabled');
+    this.isDisabledState = false;
   }
 
   /**
    * Disable.
    */
   disable() {
+    this.isDisabledState = true;
     this.button.setAttribute('disabled', 'disabled');
+  }
+
+  /**
+   * Determine whether option is disabled.
+   * @returns {boolean} True if disabled. Else false.
+   */
+  isDisabled() {
+    return this.isDisabledState;
   }
 }

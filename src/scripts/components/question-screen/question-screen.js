@@ -1,4 +1,5 @@
 import Util from '@services/util.js';
+import NavigationBar from './navigation-bar/navigation-bar.js';
 import Panel from './panel/panel.js';
 import ProgressBar from './progress-bar/progress-bar.js';
 import './question-screen.scss';
@@ -23,6 +24,8 @@ export default class QuestionScreen {
       onAnswerGiven: () => {},
       onCompleted: () => {}
     }, callbacks);
+
+    this.currentPanelIndex = 0;
 
     this.buildDOM();
   }
@@ -66,6 +69,12 @@ export default class QuestionScreen {
         allowsMultipleChoices: question.allowsMultipleChoices
       },
       {
+        onOptionChosen: () => {
+          this.updateNavigationButtons();
+          if (!question.allowsMultipleChoices) {
+            this.navigationBar?.focusButton('next');
+          }
+        },
         onAnswerGiven: (optionIndexes) => {
           this.callbacks.onAnswerGiven({
             questionIndex: questionIndex,
@@ -90,7 +99,24 @@ export default class QuestionScreen {
       this.panelWrapper.append(panel.getDOM());
     });
 
-    this.progressBar.setProgress(1);
+    if (this.params.appearance === 'classic') {
+      this.navigationBar = new NavigationBar({
+        allowReview: this.params.allowReview,
+        a11y: {
+          back: this.params.dictionary.get('a11y.previous'),
+          next: this.params.dictionary.get('a11y.next')
+        }
+      }, {
+        onClicked: (buttonId) => {
+          this.handleNavigationButtonClicked(buttonId);
+        }
+      });
+      this.dom.append(this.navigationBar.getDOM());
+    }
+
+    this.progressBar.setProgress(this.currentPanelIndex + 1);
+
+    this.updateNavigationButtons();
   }
 
   /**
@@ -102,12 +128,25 @@ export default class QuestionScreen {
   }
 
   /**
+   * Show
+   */
+  show(params = {}) {
+    this.dom.classList.remove('display-none');
+
+    if (params.focus) {
+
+
+      this.panels[this.currentPanelIndex].focus();
+    }
+  }
+
+  /**
    * Show.
    * @param {object} [params] Parameters.
    * @param {object[]} [params.answersGiven] Previously given answers.
    * @param {boolean} [params.focus] If true, set focus to relevant panel.
    */
-  show(params = {}) {
+  showInAction(params = {}) {
     params = Util.extend({ answersGiven: [] }, params);
 
     const lastQuestionIndex = params.answersGiven.length;
@@ -137,7 +176,7 @@ export default class QuestionScreen {
       }
     });
 
-    this.dom.classList.remove('display-none');
+    this.show();
   }
 
   /**
@@ -155,9 +194,9 @@ export default class QuestionScreen {
   reset(params = {}) {
     params = Util.extend({ answersGiven: [] }, params);
 
-    const lastQuestionIndex = params.answersGiven.length;
+    this.currentPanelIndex = params.answersGiven.length;
 
-    this.progressBar.setProgress(lastQuestionIndex);
+    this.progressBar.setProgress(this.currentPanelIndex + 1);
 
     this.panels.forEach((panel, index) => {
       const answer = params.answersGiven
@@ -166,10 +205,78 @@ export default class QuestionScreen {
 
       panel.reset({
         optionsChosen: optionsChosen,
-        completed: index < lastQuestionIndex
+        completed: index < this.currentPanelIndex
       });
       panel.hide();
     });
+
+    this.updateNavigationButtons();
+  }
+
+  /**
+   * Handle navigation button clicked.
+   * @param {string} buttonId Id of button that was clicked.
+   */
+  handleNavigationButtonClicked(buttonId) {
+    if (buttonId === 'previous') {
+      this.moveToPanel(this.currentPanelIndex - 1);
+    }
+    else if (buttonId === 'next') {
+      this.moveToPanel(this.currentPanelIndex + 1);
+    }
+  }
+
+  /**
+   * Update navigation buttons.
+   */
+  updateNavigationButtons() {
+    if (!this.navigationBar) {
+      return;
+    }
+
+    const panelsAnsweredState = this.panels.map((panel) => panel.getAnswerGiven());
+    const maxPanelAnsweredIndex = panelsAnsweredState.indexOf(false) === -1 ?
+      panelsAnsweredState.length :
+      panelsAnsweredState.indexOf(false);
+
+      this.navigationBar.toggleButtonEnabled('previous', this.currentPanelIndex !== 0);
+      this.navigationBar.toggleButtonEnabled('next', this.currentPanelIndex < maxPanelAnsweredIndex);
+  }
+
+  /**
+   * Move to panel.
+   * @param {number} panelIndex Index of panel to move to.
+   */
+  moveToPanel(panelIndex) {
+    if (panelIndex < 0) {
+      return;
+    }
+
+    if (
+      this.params.appearance === 'chat'
+      && panelIndex <= this.currentPanelIndex
+    ) {
+      return;
+    }
+
+    if (panelIndex >= this.panels.length) {
+      this.callbacks.onCompleted();
+    }
+    else {
+      this.currentPanelIndex = panelIndex;
+      this.progressBar.setProgress(panelIndex + 1);
+      this.updateNavigationButtons();
+
+      if (this.params.appearance === 'classic') {
+        this.panels.forEach((panel, index) => {
+          if (index !== panelIndex) {
+            panel.hide();
+          }
+        });
+      }
+
+      this.panels[panelIndex].show({ focus: true });
+    }
   }
 
   /**
@@ -177,16 +284,8 @@ export default class QuestionScreen {
    * @param {number} panelIndex Index of panel that was completed.
    */
   handlePanelCompleted(panelIndex) {
-    this.progressBar.setProgress(this.progressBar.getProgress() + 1);
-
-    if (panelIndex + 1 === this.panels.length) {
-      this.callbacks.onCompleted();
-    }
-    else {
-      if (this.params.appearance === 'classic') {
-        this.panels[panelIndex].hide();
-      }
-      this.panels[panelIndex + 1].show({ focus: true });
+    if (this.params.appearance === 'chat') {
+      this.moveToPanel(panelIndex + 1);
     }
   }
 

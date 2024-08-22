@@ -72,12 +72,15 @@
         .h5p-personality-quiz-xr-answer-option-button-text {
           background-position: 0%; color: var(--color-button-text-active);
         }
-      }
 
+        &:hover .h5p-personality-quiz-xr-answer-option-button-text:not(.animate) {
+          background: var(--color-button-active-hover);
+        }
+      }
     }
 
     &:not(.has-image) {
-      &:not([disabled]):hover {
+      .h5p-personality-quiz-xr-answer-option-button:not(.selected):not([disabled]):hover {
         .h5p-personality-quiz-xr-answer-option-button-text:not(.animate) {
           background: #ececec;
         }

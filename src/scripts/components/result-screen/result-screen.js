@@ -11,6 +11,7 @@ export default class ResultScreen {
    * @param {object} [params.a11y] Accessibility.
    * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onReset] Callback when reset button clicked.
+   * @param {function} [callbacks.onBack] Callback when back button clicked.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -24,7 +25,8 @@ export default class ResultScreen {
     }, params);
 
     this.callbacks = Util.extend({
-      onReset: () => {}
+      onReset: () => {},
+      onBack: () => {}
     }, callbacks);
 
     this.ariaText = '';
@@ -91,13 +93,28 @@ export default class ResultScreen {
     this.choices.classList.add('h5p-personality-quiz-xr-result-screen-choices');
     this.optionsChosen.append(this.choices);
 
-    this.button = document.createElement('button');
-    this.button.classList.add('h5p-personality-quiz-xr-result-screen-reset-button');
-    this.button.innerText = this.params.l10n.reset;
-    this.button.addEventListener('click', () => {
+    const buttonWrapper = document.createElement('div');
+    buttonWrapper.classList.add('h5p-personality-quiz-xr-result-screen-buttons');
+
+    if (this.params.allowReview) {
+      this.buttonBack = document.createElement('button');
+      this.buttonBack.classList.add('h5p-personality-quiz-xr-result-screen-button');
+      this.buttonBack.innerText = this.params.l10n.review;
+      this.buttonBack.addEventListener('click', () => {
+        this.callbacks.onBack();
+      });
+      buttonWrapper.append(this.buttonBack);
+    }
+
+    this.buttonReset = document.createElement('button');
+    this.buttonReset.classList.add('h5p-personality-quiz-xr-result-screen-button');
+    this.buttonReset.innerText = this.params.l10n.reset;
+    this.buttonReset.addEventListener('click', () => {
       this.callbacks.onReset();
     });
-    this.dom.append(this.button);
+    buttonWrapper.append(this.buttonReset);
+
+    this.dom.append(buttonWrapper);
   }
 
   /**
@@ -149,7 +166,7 @@ export default class ResultScreen {
    * Focus.
    */
   focus() {
-    this.button.focus();
+    this.buttonReset.focus();
   }
 
   /**

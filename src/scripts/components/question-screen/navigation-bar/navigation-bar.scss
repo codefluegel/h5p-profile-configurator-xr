@@ -1,0 +1,55 @@
+.navigation-bar {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: space-between;
+  padding: 0.5rem;
+  width: 100%;
+
+  &.no-review-allowed {
+    justify-content: flex-end;
+  }
+
+  .nav-button {
+    background-color: var(--color-button-background);
+    border: none;
+    border-radius: 3px;
+    color: var(--color-button-text);
+    font-weight: 400;
+    height: 2.5rem;
+    width: 2.5rem;
+
+    &.display-none {
+      display: none;
+    }
+
+    &[disabled] {
+      background-color: #f8f8f8;
+      color: #a0a0a0;
+    }
+
+    &.selected {
+      background-color: var(--color-button-active);
+      color: var(--color-button-text-active);
+    }
+
+    &:not([disabled]):hover {
+      background-color: #cccccc;
+      cursor: pointer;
+    }
+
+    &::before {
+      font-family: "H5PFontAwesome4", sans-serif;
+      font-weight: bold;
+    }
+
+    &.previous::before {
+      content: "\f053";
+    }
+
+    &.next::before {
+      content: "\f054";
+    }
+  }
+}

@@ -98,7 +98,8 @@ export default class Content {
         questions: this.params.questions,
         colorProgressBar: this.params.colorProgressBar,
         isAnimationOn: this.params.isAnimationOn,
-        showProgressBar: this.params.showProgressBar
+        showProgressBar: this.params.showProgressBar,
+        allowReview: this.params.allowReview
       },
       {
         onAnswerGiven: (params) => {
@@ -174,9 +175,11 @@ export default class Content {
         ...(this.params.resultScreen),
         globals: this.params.globals,
         dictionary: this.params.dictionary,
+        allowReview: this.params.allowReview,
         l10n: {
           notFinished: this.params.dictionary.get('l10n.notFinished'),
-          reset: this.params.dictionary.get('l10n.reset')
+          reset: this.params.dictionary.get('l10n.reset'),
+          review: this.params.dictionary.get('l10n.review')
         },
         a11y: {
           resultsTitle: this.params.dictionary.get('a11y.resultsTitle')
@@ -185,6 +188,13 @@ export default class Content {
       {
         onReset: () => {
           this.callbacks.onReset();
+        },
+        onBack: () => {
+          this.isReviewing = true;
+          this.resultScreen.hide();
+          this.questionScreen.show({ focus: true });
+
+          this.params.globals.get('resize')();
         }
       }
     );
@@ -251,7 +261,7 @@ export default class Content {
    * Handle title screen closed.
    */
   handleTitleScreenClosed() {
-    this.questionScreen.show({
+    this.questionScreen.showInAction({
       answersGiven: this.answersGiven,
       focus: true
     });
@@ -300,8 +310,8 @@ export default class Content {
       Math.floor(Math.random() * winnerIndexes.length)
     ];
 
-    // Was already completed before
-    if (!this.resultScreen.getCurrentState()) {
+    // Update result if user was reviewing or not already completed before
+    if (this.isReviewing || !this.resultScreen.getCurrentState()) {
       this.resultScreen.setContent({
         personality: this.params.personalities[winnerIndex],
         choices: this.questionScreen.getChoices()
@@ -360,6 +370,8 @@ export default class Content {
       return; // Not set up
     }
 
+    this.isReviewing = false;
+
     this.scores = this.params.previousState.scores ??
       new Array(this.params.personalities.length).fill(0);
 
@@ -387,7 +399,7 @@ export default class Content {
     this.params.previousState = {};
 
     if (params.showInstantly) {
-      this.questionScreen.show({
+      this.questionScreen.showInAction({
         answersGiven: this.answersGiven,
         focus: params.focus,
         showInstantly: params.showInstantly
@@ -397,19 +409,19 @@ export default class Content {
       this.params.delegateRun &&
       this.answersGiven.length !== this.params.questions.length
     ) {
-      this.questionScreen.show({
+      this.questionScreen.showInAction({
         answersGiven: this.answersGiven,
         focus: params.focus
       });
     }
     else if (this.params.titleScreen && this.answersGiven.length === 0) {
-      this.startScreen.show({
+      this.startScreen.showInAction({
         focusButton: params.focus,
         readOpened: params.focus
       });
     }
     else if (this.answersGiven.length !== this.params.questions.length) {
-      this.questionScreen.show({
+      this.questionScreen.showInAction({
         answersGiven: this.answersGiven,
         focus: !!params.focus
       });

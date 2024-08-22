@@ -27,6 +27,7 @@ export default class Panel {
     this.params.questionText = Util.purifyHTML(this.params.questionText);
 
     this.callbacks = Util.extend({
+      onOptionChosen: () => {},
       onAnswerGiven: () => {},
       onCompleted: () => {}
     }, callbacks);
@@ -120,18 +121,10 @@ export default class Panel {
         },
         {
           onClicked: () => {
-            if (!this.optionsChosen.includes(index)) {
-              optionInstance.select({ animate: this.params.animation });
-            }
-            else {
-              optionInstance.deselect();
-            }
             this.handleOptionChosen(index);
           },
           onCompleted: () => {
-            if (!this.params.allowsMultipleChoices) {
-              this.handleOptionCompleted();
-            }
+            this.handleOptionCompleted();
           }
         }
       );
@@ -141,7 +134,7 @@ export default class Panel {
       listItem.append(optionInstance.getDOM());
     });
 
-    if (this.params.allowsMultipleChoices) {
+    if (this.params.allowsMultipleChoices && this.params.appearance === 'chat') {
       this.buttonDone = document.createElement('button');
       this.buttonDone.classList.add('h5p-personality-quiz-xr-button-done');
       if (this.params.animation && this.params.appearance === 'chat') {
@@ -159,13 +152,12 @@ export default class Panel {
 
       this.buttonDone.addEventListener('click', () => {
         this.buttonDone.disabled = true;
-        this.buttonDone.classList.add('selected');
         this.options.forEach((option) => {
           option.disable();
         });
 
         this.callbacks.onAnswerGiven(this.optionsChosen);
-        this.callbacks.onCompleted();
+        this.handleOptionCompleted(true);
       });
 
       this.dom.append(this.buttonDone);
@@ -229,6 +221,10 @@ export default class Panel {
         this.params.globals.get('resize')();
       });
     }
+
+    if (this.params.allowsMultipleChoices && this.params.appearance === 'chat') {
+      this.buttonDone.disabled = this.optionsChosen.length === 0;
+    }
   }
 
   /**
@@ -237,6 +233,10 @@ export default class Panel {
   hide() {
     this.dom.classList.add('display-none');
     this.isVisibleState = false;
+
+    this.options.forEach((option) => {
+      option.toggleAnimation(false);
+    });
   }
 
   /**
@@ -244,7 +244,10 @@ export default class Panel {
    * @param {object} [params] Parameters.
    */
   focus(params) {
-    this.options[0]?.focus(params);
+    const firstAvailableOption = this.options.find((option) => {
+      return !option.isDisabled();
+    });
+    firstAvailableOption?.focus(params);
   }
 
   /**
@@ -277,7 +280,7 @@ export default class Panel {
       });
     });
 
-    if (this.params.allowsMultipleChoices) {
+    if (this.params.allowsMultipleChoices && this.params.appearance === 'chat') {
       this.buttonDone.disabled =
         this.optionsChosen.length === 0 || params.completed;
 
@@ -289,32 +292,50 @@ export default class Panel {
    * Handle option chosen.
    * @param {number} index Index of option that was chosen.
    */
-  handleOptionChosen(index) {
-    if (this.optionsChosen.includes(index)) {
-      this.optionsChosen = this.optionsChosen.filter((optionIndex) => {
-        return optionIndex !== index;
-      });
-    }
-    else {
-      this.optionsChosen.push(index);
+  handleOptionChosen(indexChosen) {
+    this.options.forEach((option, index) => {
+      if (!this.params.allowsMultipleChoices) {
+        if (index === indexChosen) {
+          option.disable();
+        }
+        else {
+          option.deselect();
+          option.enable();
+        }
+      }
+    });
+
+    this.optionsChosen = this.options.reduce((acc, option, index) => {
+      return option.isSelected() ? [...acc, index] : acc;
+    }, []);
+
+    this.callbacks.onOptionChosen();
+
+    if (this.params.allowsMultipleChoices && this.params.appearance === 'chat') {
+      this.buttonDone.disabled = this.optionsChosen.length === 0;
     }
 
     if (!this.params.allowsMultipleChoices) {
-      this.options.forEach((option) => {
-        option.disable();
-      });
-
       this.callbacks.onAnswerGiven(this.optionsChosen);
-    }
-    else {
-      this.buttonDone.disabled = this.optionsChosen.length === 0;
     }
   }
 
   /**
-   * Handle option completed.
+   * Determine whether an answer was given.
+   * @returns {boolean} True, if answer was given, else false.
    */
-  handleOptionCompleted() {
+  getAnswerGiven() {
+    return this.optionsChosen.length > 0;
+  }
+
+  /**
+   * Handle option completed.
+   * @param {boolean} [override] If true, always process.
+   */
+  handleOptionCompleted(override = false) {
+    if (!override && this.params.allowsMultipleChoices && this.params.appearance === 'chat') {
+      return;
+    }
     this.callbacks.onCompleted();
   }
 

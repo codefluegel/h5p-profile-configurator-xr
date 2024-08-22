@@ -92,36 +92,43 @@
     }
   }
 
-  .h5p-personality-quiz-xr-result-screen-reset-button {
-    background-color: var(--color-button-background);
-    background-size: cover;
-    border: 0;
-    border-radius: 3px;
-    color: var(--color-button-text);
-    cursor: pointer;
-    font-size: 20px;
-    font-weight: 400;
-    padding: 0.5rem 2.5rem;
-    text-align: center;
-    text-decoration: none solid var(--color-button-text);
+  .h5p-personality-quiz-xr-result-screen-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    gap: 1rem;
 
-    &:hover {
-      background-color: var(--color-button-hover);
+    .h5p-personality-quiz-xr-result-screen-button {
+      background-color: var(--color-button-background);
       background-size: cover;
+      border: 0;
+      border-radius: 3px;
+      color: var(--color-button-text);
       cursor: pointer;
-    }
+      font-size: 20px;
+      font-weight: 400;
+      padding: 0.5rem 2.5rem;
+      text-align: center;
+      text-decoration: none solid var(--color-button-text);
 
-    &:active {
-      background-color: var(--color-button-active);
-      background-size: cover;
-    }
+      &:hover {
+        background-color: var(--color-button-hover);
+        background-size: cover;
+        cursor: pointer;
+      }
 
-    &:focus {
-      outline-style: double;
-    }
+      &:active {
+        background-color: var(--color-button-active);
+        background-size: cover;
+      }
 
-    &.display-none {
-      display: none;
+      &:focus {
+        outline-style: double;
+      }
+
+      &.display-none {
+        display: none;
+      }
     }
   }
 

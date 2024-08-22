@@ -406,6 +406,37 @@
     ]
   },
   {
+    "name": "behaviour",
+    "type": "group",
+    "importance": "low",
+    "label": "Behavioural settings",
+    "fields": [
+      {
+        "name": "allowReview",
+        "label": "Allow to review previous answers",
+        "type": "boolean",
+        "importance": "low",
+        "optional": false,
+        "widget": "showWhen",
+        "showWhen": {
+          "rules": [
+            {
+              "field": "../visual/appearance",
+              "equals": "classic"
+            }
+          ],
+          "nullWhenHidden": true
+        }
+      },
+      {
+        "name": "dummy",
+        "type": "boolean",
+        "label": "Dummy",
+        "widget": "none"
+      }
+    ]
+  },
+  {
     "name": "l10n",
     "type": "group",
     "label": "User interface",
@@ -459,6 +490,13 @@
         "description": "Label of \"Restart\" button."
       },
       {
+        "name": "review",
+        "label": "Review answers",
+        "type": "text",
+        "default": "Review answers",
+        "description": "Label of \"Review answers\" button."
+      },
+      {
         "name": "notFinished",
         "label": "Not finished",
         "type": "text",
@@ -509,6 +547,18 @@
         "label": "\"Stand by\" message",
         "type": "text",
         "default": "Stand by."
+      },
+      {
+        "name": "previous",
+        "label": "Previous question",
+        "type": "text",
+        "default": "Previous question"
+      },
+      {
+        "name": "next",
+        "label": "Next question",
+        "type": "text",
+        "default": "Next question"
       }
     ]
   }

@@ -209,6 +209,17 @@
       ]
     },
     {
+      "label": "Behavioural settings",
+      "fields": [
+        {
+          "label": "Allow to review previous answers"
+        },
+        {
+          "label": "Dummy"
+        }
+      ]
+    },
+    {
       "label": "Nastavitve interakcije",
       "fields": [
         {
@@ -245,6 +256,11 @@
           "description": "Besedilo gumba \"Poskusi ponovno\"."
         },
         {
+          "label": "Review answers",
+          "default": "Review answers",
+          "description": "Label of \"Review answers\" button."
+        },
+        {
           "label": "Ni zaključeno",
           "default": "Kviz še ni zaključen.",
           "description": "Sporočilo ob prezgodnjem poskusu zaključka kviza."
@@ -278,6 +294,14 @@
         {
           "label": "\"Stand by\" message",
           "default": "Stand by."
+        },
+        {
+          "label": "Previous question",
+          "default": "Previous question"
+        },
+        {
+          "label": "Next question",
+          "default": "Next question"
         }
       ]
     }
