@@ -265,7 +265,7 @@ export default class ResultScreen {
     if (params.personality.description && this.params.displayDescription) {
       this.explanation.classList.remove('display-none');
       this.description.classList.remove('display-none');
-      this.description.innerHTML = params.description;
+      this.description.innerHTML = params.personality.description;
     }
     else {
       this.description.classList.add('display-none');
