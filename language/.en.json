@@ -104,7 +104,8 @@
                       "label": "Personalities",
                       "description": "A comma separated list of personality names associated with this answer.",
                       "importantDescription": {
-                        "description": "<ul><li>Add the name of a personality that should receive a score of +1 when the option is chosen.</li><li>You can specify other scores including negative values by adding an equality sign (=) followed by the score.</li><li>Personality names need to be separate by a comma (,).</li></ul>"
+                        "description": "<ul><li>Add the name of a personality that should receive a score of +1 when the option is chosen.</li><li>You can specify other scores including negative values by adding an equality sign (=) followed by the score.</li><li>Personality names need to be separate by a comma (,).</li></ul>",
+                        "example": "apple, mango=4, strawberry=-1"
                       }
                     },
                     {
