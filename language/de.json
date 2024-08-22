@@ -198,13 +198,11 @@
         },
         {
           "label": "Basisfarbe",
-          "description": "Wählte die Basisfarbe, aus der die Farbe für Buttons, für deren Füllanimationen und einige andere Dinge abgeleitet werden soll.",
-          "default": "#1a73d9"
+          "description": "Wählte die Basisfarbe, aus der die Farbe für Buttons, für deren Füllanimationen und einige andere Dinge abgeleitet werden soll."
         },
         {
           "label": "Farbe für Fortschrittsbalken",
-          "description": "Wähle die Farbe des Fortschrittsbalkens.",
-          "default": "#1a73d9"
+          "description": "Wähle die Farbe des Fortschrittsbalkens."
         }
       ]
     },
