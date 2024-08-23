@@ -284,8 +284,7 @@ export default class Content {
 
     const choices = this.questionScreen.getChoices();
 
-    choices.forEach((choice) => {
-      const questionIndex = parseInt(choice.question) - 1;
+    choices.forEach((choice, questionIndex) => {
       choice.options.forEach((option, optionIndex) => {
         if (!option.selected) {
           return;
@@ -309,8 +308,7 @@ export default class Content {
     const choices = this.questionScreen.getChoices();
 
     const answersGiven = choices
-      .map((choice) => {
-        const panelIndex = parseInt(choice.question) - 1;
+      .map((choice, panelIndex) => {
         const options = choice.options
           .map((option, index) => (option.selected ? index : -1))
           .filter((index) => index !== -1);
