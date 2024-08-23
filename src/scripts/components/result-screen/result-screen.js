@@ -43,6 +43,26 @@ export default class ResultScreen {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-personality-quiz-xr-result-screen');
 
+    this.title = document.createElement('p');
+    this.title.classList.add(
+      'h5p-personality-quiz-xr-result-screen-explanation-title'
+    );
+    this.title.classList.add('display-none');
+    this.dom.append(this.title);
+
+    const row = document.createElement('div');
+    row.classList.add('h5p-personality-quiz-xr-result-screen-row');
+
+    // Visualization
+    this.visualizationWrapper = document.createElement('div');
+    this.visualizationWrapper.classList.add('h5p-personality-quiz-xr-visualization');
+    this.visualizationWrapper.classList.add('display-none');
+    row.append(this.visualizationWrapper);
+
+    this.detailsDOM = document.createElement('div');
+    this.detailsDOM.classList.add('h5p-personality-quiz-xr-result-screen-details');
+    row.append(this.detailsDOM);
+
     // Personality explanation
     this.explanation = document.createElement('div');
     this.explanation.classList.add(
@@ -50,27 +70,12 @@ export default class ResultScreen {
     );
     this.explanation.classList.add('display-none');
 
-    this.title = document.createElement('p');
-    this.title.classList.add(
-      'h5p-personality-quiz-xr-result-screen-explanation-title'
-    );
-    this.title.classList.add('display-none');
-    this.explanation.append(this.title);
-
-    // Visualization
-
-    this.visualizationWrapper = document.createElement('div');
-    this.visualizationWrapper.classList.add('h5p-personality-quiz-xr-visualization');
-    this.visualizationWrapper.classList.add('display-none');
-    this.explanation.append(this.visualizationWrapper);
-
     this.description = document.createElement('p');
     this.description.classList.add(
       'h5p-personality-quiz-xr-result-screen-explanation-description'
     );
-    this.description.classList.add('display-none');
     this.explanation.append(this.description);
-    this.dom.append(this.explanation);
+    this.detailsDOM.append(this.explanation);
 
     // Options chosen
     this.optionsChosen = document.createElement('div');
@@ -78,7 +83,7 @@ export default class ResultScreen {
       'h5p-personality-quiz-xr-result-screen-options-chosen'
     );
     this.optionsChosen.classList.add('display-none');
-    this.dom.append(this.optionsChosen);
+    this.detailsDOM.append(this.optionsChosen);
 
     this.choicesTitle = document.createElement('p');
     this.choicesTitle.classList.add('h5p-personality-quiz-xr-result-screen-choices-title');
@@ -88,6 +93,8 @@ export default class ResultScreen {
     this.choices = document.createElement('ul');
     this.choices.classList.add('h5p-personality-quiz-xr-result-screen-choices');
     this.optionsChosen.append(this.choices);
+
+    this.dom.append(row);
 
     const buttonWrapper = document.createElement('div');
     buttonWrapper.classList.add('h5p-personality-quiz-xr-result-screen-buttons');
@@ -136,8 +143,6 @@ export default class ResultScreen {
 
     this.dom.classList.add('fade-in');
     this.dom.classList.remove('display-none');
-
-    this.optionsChosen.classList.toggle('display-none', !this.showOptionsChosen);
 
     window.setTimeout(() => {
       this.dom.classList.remove('fade-in');
@@ -313,15 +318,20 @@ export default class ResultScreen {
     // Description
     if (params.personality.description && this.params.displayDescription) {
       this.explanation.classList.remove('display-none');
-      this.description.classList.remove('display-none');
       this.description.innerHTML = params.personality.description;
     }
     else {
-      this.description.classList.add('display-none');
+      this.explanation.classList.add('display-none');
     }
 
     if (!params.personality.name && !params.personality.description) {
       this.explanation.classList.add('display-none');
+    }
+
+    this.optionsChosen.classList.toggle('display-none', !this.params.displayOptionsChosen);
+
+    if ([...this.detailsDOM.children].every((child) => child.classList.contains('display-none'))) {
+      this.detailsDOM.classList.add('display-none');
     }
   }
 

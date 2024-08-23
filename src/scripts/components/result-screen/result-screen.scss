@@ -18,56 +18,24 @@
     opacity: 0;
   }
 
-  .h5p-personality-quiz-xr-result-screen-options-chosen {
-    background-color: rgba(233, 239, 247, 0.8);
-    padding: 1rem;
-    width: 80%;
-
-    .h5p-personality-quiz-xr-result-screen-choices-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 0;
-    }
-
-    .h5p-personality-quiz-xr-result-screen-choices {
-      list-style: none;
-      padding: 0;
-
-      .h5p-personality-quiz-xr-result-screen-choices-list-item {
-        margin-bottom: 1rem;
-
-        .h5p-personality-quiz-xr-result-screen-choices-question {
-          font-size: 1.2rem;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .h5p-personality-quiz-xr-result-screen-choices-options {
-          margin: 0;
-        }
-      }
-    }
-
-    &.display-none {
-      display: none;
-    }
+  .h5p-personality-quiz-xr-result-screen-explanation-title {
+    align-self: flex-start;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
   }
 
-  .h5p-personality-quiz-xr-result-screen-explanation {
-    background-color: rgba(233, 239, 247, 0.8);
-    padding: 1rem;
-    width: 80%;
-
-    .h5p-personality-quiz-xr-result-screen-explanation-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 0;
-    }
+  .h5p-personality-quiz-xr-result-screen-row {
+    box-sizing: border-box;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(40ch, 1fr));
+    width: 100%;
 
     .h5p-personality-quiz-xr-visualization {
-      --max-visualization-height: 15rem;
-
       &.h5p-image img {
-        margin: 1rem auto 0 auto;
+        margin: 0 auto;
+        height: auto !important;
         max-height: var(--max-visualization-height, none);
         object-fit: contain;
       }
@@ -87,23 +55,36 @@
       }
     }
 
-    .h5p-personality-quiz-xr-result-screen-explanation-image-inline {
-      display: block;
-      max-height: 15rem;
-      max-width: 100%;
-      margin: 1rem auto 0 auto;
+    .h5p-personality-quiz-xr-result-screen-details {
+      display: grid;
+      grid-gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(20ch, 1fr));
 
       &.display-none {
         display: none;
       }
     }
 
-    .h5p-personality-quiz-xr-result-screen-explanation-description {
-      margin-bottom: 0;
-      margin-top: 1rem;
+    .h5p-personality-quiz-xr-result-screen-explanation {
+      background-color: rgba(233, 239, 247, 0.8);
+      padding: 1rem;
 
-      &> p:last-child {
+      .h5p-personality-quiz-xr-result-screen-explanation-description {
         margin-bottom: 0;
+        margin-top: 0;
+        word-break: break-all;
+
+        &> p:first-child {
+          margin-top: 0;
+        }
+
+        &> p:last-child {
+          margin-bottom: 0;
+        }
+
+        &.display-none {
+          display: none;
+        }
       }
 
       &.display-none {
@@ -111,8 +92,42 @@
       }
     }
 
-    &.display-none {
-      display: none;
+    .h5p-personality-quiz-xr-result-screen-options-chosen {
+      background-color: rgba(233, 239, 247, 0.8);
+      padding: 1rem;
+
+      .h5p-personality-quiz-xr-result-screen-choices-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .h5p-personality-quiz-xr-result-screen-choices {
+        list-style: none;
+        margin-bottom: 0;
+        padding: 0;
+
+        &> li:last-child {
+          margin-bottom: 0;
+        }
+
+        .h5p-personality-quiz-xr-result-screen-choices-list-item {
+          margin-bottom: 1rem;
+
+          .h5p-personality-quiz-xr-result-screen-choices-question {
+            font-size: 1.2rem;
+            margin: 0 0 0.5rem 0;
+          }
+
+          .h5p-personality-quiz-xr-result-screen-choices-options {
+            margin: 0;
+          }
+        }
+      }
+
+      &.display-none {
+        display: none;
+      }
     }
   }
 
