@@ -52,7 +52,7 @@ export default class Panel {
     this.dom.classList.add(`appearance-${this.params.appearance}`);
 
     // Visualization
-    if (this.params.visualization?.content?.params) {
+    if (Object.keys(this.params.visualization?.content?.params ?? {}).length) {
       const instance = H5P.newRunnable(
         this.params.visualization.content,
         this.params.globals.get('contentId'),

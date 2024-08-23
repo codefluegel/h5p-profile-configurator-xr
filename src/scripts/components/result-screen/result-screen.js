@@ -242,7 +242,7 @@ export default class ResultScreen {
 
     this.visualizationWrapper.innerHTML = '';
 
-    if (params.personality.visualization?.content?.params) {
+    if (Object.keys(params.personality.visualization?.content?.params ?? {}).length) {
       const instance = H5P.newRunnable(
         params.personality.visualization.content,
         this.params.globals.get('contentId'),
