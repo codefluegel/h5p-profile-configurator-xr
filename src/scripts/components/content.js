@@ -143,6 +143,7 @@ export default class Content {
         introduction: this.params.titleScreen.titleScreenIntroduction,
         medium: this.params.titleScreen.titleScreenMedium,
         maxMediumHeight: this.params.titleScreen.maxHeight,
+        globals: this.params.globals,
         buttons: [
           { id: 'start', text: this.params.dictionary.get('l10n.start') }
         ],
