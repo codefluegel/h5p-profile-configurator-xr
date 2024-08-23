@@ -155,19 +155,18 @@ H5PUpgrades['H5P.PersonalityQuizXR'] = (() => {
           for (let i = 0; i < parameters.personalitiesGroup.personalities.length; i++) {
             const personality = parameters.personalitiesGroup.personalities[i];
             if (personality.image?.file?.path) {
-              personality.visualization = {
-                content: {
-                  library: 'H5P.Image 1.1',
-                  metadata: copyrightToMetadata(personality.image.file.copyright, 'Image'),
-                  params: {
-                    ...(personality.image.alt && { alt: personality.image.alt }),
-                    contentName: 'Image',
-                    file: personality.image.file
-                  },
-                  subContentId: createUUID()
+              personality.visualization = {};
+              personality.visualization.content = {
+                library: 'H5P.Image 1.1',
+                metadata: copyrightToMetadata(personality.image.file.copyright, 'Image'),
+                params: {
+                  ...(personality.image.alt && { alt: personality.image.alt }),
+                  contentName: 'Image',
+                  file: personality.image.file
                 },
-                maxHeight: '15rem'
+                subContentId: createUUID()
               };
+              personality.visualization.maxHeight = '15rem';
             }
             delete personality.image;
           }
@@ -177,19 +176,18 @@ H5PUpgrades['H5P.PersonalityQuizXR'] = (() => {
           for (let i = 0; i < parameters.questionsGroup.questions.length; i++) {
             const question = parameters.questionsGroup.questions[i];
             if (question.image?.file?.path) {
-              question.visualization = {
-                content: {
-                  library: 'H5P.Image 1.1',
-                  metadata: copyrightToMetadata(question.image.file.copyright, 'Image'),
-                  params: {
-                    ...(question.image.alt && { alt: question.image.alt }),
-                    contentName: 'Image',
-                    file: question.image.file
-                  },
-                  subContentId: createUUID()
+              question.visualization = {};
+              question.visualization.content = {
+                library: 'H5P.Image 1.1',
+                metadata: copyrightToMetadata(question.image.file.copyright, 'Image'),
+                params: {
+                  ...(question.image.alt && { alt: question.image.alt }),
+                  contentName: 'Image',
+                  file: question.image.file
                 },
-                maxHeight: '10rem'
+                subContentId: createUUID(),
               };
+              question.visualization.maxHeight = '10rem';
             }
             delete question.image;
           }
