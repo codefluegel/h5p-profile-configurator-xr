@@ -137,9 +137,6 @@ export default class Content {
       this.intro = document.createElement('div');
       this.intro.classList.add('h5p-personality-quiz-xr-content-intro');
 
-      console.log(this.params);
-
-
       this.startScreen = new MediaScreen({
         id: 'start',
         contentId: this.params.globals.get('contentId'),

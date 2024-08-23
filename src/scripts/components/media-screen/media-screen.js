@@ -95,9 +95,6 @@ export default class MediaScreen {
    * @returns {HTMLElement} Visual stuff for cover.
    */
   buildVisualsElement() {
-    console.log(this.params);
-
-
     const visuals = document.createElement('div');
     visuals.classList.add('media-screen-medium');
     visuals.style.setProperty(
