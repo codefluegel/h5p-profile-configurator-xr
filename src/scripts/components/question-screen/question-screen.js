@@ -60,7 +60,7 @@ export default class QuestionScreen {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
         appearance: this.params.appearance,
-        image: question.image,
+        visualization: question.visualization,
         questionText: question.text,
         answerOptions: question.answers,
         animation: this.params.isAnimationOn,

@@ -18,7 +18,7 @@ export default class Panel {
    * @param {string} [params.questionText] Question text.
    * @param {boolean} [params.animation] If true, animate option buttons.
    * @param {object} [params.answerOptions] Answer options.
-   * @param {object} [params.image] Image data.
+   * @param {object} [params.visualization] Image data.
    * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onClicked] Callback when panel is completed.
    */
@@ -51,18 +51,58 @@ export default class Panel {
     this.dom.classList.add('h5p-personality-quiz-xr-panel');
     this.dom.classList.add(`appearance-${this.params.appearance}`);
 
-    // Image
-    if (this.params.image?.file?.path) {
-      const image = document.createElement('img');
-      image.classList.add('h5p-personality-quiz-xr-panel-image');
-      image.setAttribute('alt', this.params.image.file.alt ?? '');
-      image.addEventListener('load', () => {
-        this.params.globals.get('resize')();
-      });
-      H5P.setSource(
-        image, this.params.image.file, this.params.globals.get('contentId')
+    // Visualization
+    if (this.params.visualization?.content?.params) {
+      const instance = H5P.newRunnable(
+        this.params.visualization.content,
+        this.params.globals.get('contentId'),
+        undefined,
+        true
       );
-      this.dom.append(image);
+
+      if (instance) {
+        // Resize parent when children resize
+        this.bubbleUp(
+          instance, 'resize', this.params.globals.get('mainInstance')
+        );
+
+        // Resize children to fit inside parent
+        this.bubbleDown(
+          this.params.globals.get('mainInstance'), 'resize', [instance]
+        );
+
+        const visualizationWrapper = document.createElement('div');
+        visualizationWrapper.classList.add('h5p-personality-quiz-xr-visualization');
+
+        visualizationWrapper.style.setProperty(
+          '--max-visualization-height',
+          this.params.visualization.maxHeight ?? 'none'
+        );
+
+        instance.attach(H5P.jQuery(visualizationWrapper));
+
+        // Override model-viewer settings
+        if (instance.libraryInfo.machineName === 'H5P.ModelViewer') {
+          const modelViewer = visualizationWrapper.querySelector('model-viewer');
+          if (modelViewer) {
+            modelViewer.parentNode.style.height = '';
+            modelViewer.style.height = 'inherit';
+            modelViewer.style.width = 'inherit';
+            modelViewer.addEventListener('load', () => {
+              const { x, y } = modelViewer?.getDimensions();
+              if (typeof x === 'number' && typeof y === 'number') {
+                modelViewer.style.aspectRatio = `${x}/${y}`;
+              }
+
+              visualizationWrapper.querySelector('.fullscreenButton')?.remove();
+
+              this.params.globals.get('resize')();
+            });
+          }
+        }
+
+        this.dom.append(visualizationWrapper);
+      }
     }
 
     // Question text
@@ -382,6 +422,46 @@ export default class Panel {
           selected: option.isSelected()
         };
       })
+    });
+  }
+
+  /**
+   * Make it easy to bubble events from child to parent.
+   * @param {object} origin Origin of event.
+   * @param {string} eventName Name of event.
+   * @param {object} target Target to trigger event on.
+   */
+  bubbleUp(origin, eventName, target) {
+    origin.on(eventName, (event) => {
+      // Prevent target from sending event back down
+      target.bubblingUpwards = true;
+
+      // Trigger event
+      target.trigger(eventName, event);
+
+      // Reset
+      target.bubblingUpwards = false;
+    });
+  }
+
+  /**
+   * Make it easy to bubble events from parent to children.
+   * @param {object} origin Origin of event.
+   * @param {string} eventName Name of event.
+   * @param {object[]} targets Targets to trigger event on.
+   */
+  bubbleDown(origin, eventName, targets) {
+    origin.on(eventName, (event) => {
+      if (origin.bubblingUpwards) {
+        return; // Prevent send event back down.
+      }
+
+      targets.forEach((target) => {
+        // If not attached yet, some contents can fail (e. g. CP).
+        if (this.isAttached) {
+          target.trigger(eventName, event);
+        }
+      });
     });
   }
 }

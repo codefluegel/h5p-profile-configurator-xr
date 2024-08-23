@@ -26,10 +26,12 @@
   }
 
   .media-screen-medium {
+    --max-medium-height: 15rem;
+
     align-items: center;
-    display: flex;
-    height: 15rem;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
     margin: 4.375em 0;
     position: relative;
     width: 100%;
@@ -42,12 +44,10 @@
     &.h5p-video > video,
     &.h5p-video.h5p-youtube > div:not(.media-screen-bar) {
       box-shadow: 0.5em 0.25em 3em 0 rgb(0 0 0 / 20%);
-      position: absolute;
-      left: 50%;
-      max-height: 15rem;
+      grid-area: 1 / 1 / 1 / 1;
+      margin: auto;
+      max-height: var(--max-medium-height, none);
       min-width: 20rem;
-      top: 50%;
-      transform: translate(-50%, -50%);
     }
     &.h5p-image > img {
       object-fit: contain;
@@ -55,18 +55,21 @@
 
     &.h5p-image > img,
     &.h5p-video > video {
-      max-width: 85%;
+      max-width: 100%;
     }
 
     &.h5p-video.h5p-youtube > div:not(.media-screen-bar) {
-      max-width: 26.666rem;
+      max-width: 100%;
     }
   }
 
   .media-screen-bar {
     background-color: var(--color-button-pale);
     background-size: cover;
+    grid-area: 1 / 1 / 1 / 1;
     height: 70%;
+    max-height: 10.5rem;
+    order: -1;
     width: inherit;
   }
 

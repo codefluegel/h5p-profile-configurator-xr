@@ -14,9 +14,23 @@
   min-height: 4rem;
   width: 100%;
 
-  .h5p-personality-quiz-xr-panel-image {
-    max-height: 10rem;
-    object-fit: cover;
+  .h5p-personality-quiz-xr-visualization {
+    --max-visualization-height: 10rem;
+
+    &.h5p-image img {
+      max-height: var(--max-visualization-height, none);
+      object-fit: cover;
+    }
+
+    &.h5p-model-viewer {
+      .model-viewer-container model-viewer {
+            margin: auto;
+            max-height: var(--max-visualization-height, none);
+      }
+      .fullscreenButton {
+        display: none;
+      }
+    }
   }
 
   .h5p-personality-quiz-xr-question {

@@ -57,16 +57,12 @@ export default class ResultScreen {
     this.title.classList.add('display-none');
     this.explanation.append(this.title);
 
-    this.imageInline = document.createElement('img');
-    this.imageInline.classList.add(
-      'h5p-personality-quiz-xr-result-screen-explanation-image-inline'
-    );
-    this.imageInline.classList.add('display-none');
-    this.imageInline.addEventListener('load', () => {
-      this.params.globals.get('resize')();
-    });
+    // Visualization
 
-    this.explanation.append(this.imageInline);
+    this.visualizationWrapper = document.createElement('div');
+    this.visualizationWrapper.classList.add('h5p-personality-quiz-xr-visualization');
+    this.visualizationWrapper.classList.add('display-none');
+    this.explanation.append(this.visualizationWrapper);
 
     this.description = document.createElement('p');
     this.description.classList.add(
@@ -223,28 +219,10 @@ export default class ResultScreen {
     this.ariaText = `${this.params.a11y.resultsTitle} ${params.name}`;
     this.resultPersonality = params.personality.name;
     this.resultDescription = params.personality.description;
-    this.image = params.personality.image;
 
     if (params.personality.description && this.params.displayDescription) {
       this.ariaText =
         `${this.ariaText}. ${Util.purifyHTML(params.personality.description)}`;
-    }
-
-    // Image as background
-    if (
-      this.params.imagePosition === 'background' &&
-      params.personality.image?.file?.path
-    ) {
-      const image = document.createElement('img');
-      H5P.setSource(
-        image,
-        params.personality.image.file,
-        this.params.globals.get('contentId')
-      );
-      this.dom.style.backgroundImage = `url("${image.src}")`;
-    }
-    else {
-      this.dom.style.backgroundImage = '';
     }
 
     // Author doesn't want any explanation beyond image
@@ -262,20 +240,74 @@ export default class ResultScreen {
       this.title.classList.add('display-none');
     }
 
-    // Image inline
-    if (
-      this.params.imagePosition === 'inline' &&
-      params.personality.image?.file?.path
-    ) {
-      const image = document.createElement('img');
-      H5P.setSource(
-        image, params.personality.image.file, this.params.globals.get('contentId')
+    this.visualizationWrapper.innerHTML = '';
+
+    if (params.personality.visualization?.content?.params) {
+      const instance = H5P.newRunnable(
+        params.personality.visualization.content,
+        this.params.globals.get('contentId'),
+        undefined,
+        true
       );
-      this.imageInline.src = image.src;
-      this.imageInline.classList.remove('display-none');
-    }
-    else {
-      this.imageInline.classList.add('display-none');
+
+      if (instance) {
+        // Resize parent when children resize
+        this.bubbleUp(
+          instance, 'resize', this.params.globals.get('mainInstance')
+        );
+
+        // Resize children to fit inside parent
+        this.bubbleDown(
+          this.params.globals.get('mainInstance'), 'resize', [instance]
+        );
+
+        this.visualizationWrapper.style.setProperty(
+          '--max-visualization-height',
+          params.personality.visualization.maxHeight ?? 'none'
+        );
+
+        if (instance.libraryInfo.machineName === 'H5P.Image') {
+          instance.on('loaded', () => {
+            this.params.globals.get('resize')();
+          });
+        };
+
+        instance.attach(H5P.jQuery(this.visualizationWrapper));
+
+        // Override model-viewer settings
+        if (instance.libraryInfo.machineName === 'H5P.ModelViewer') {
+          const modelViewer = this.visualizationWrapper.querySelector('model-viewer');
+          if (modelViewer) {
+            modelViewer.parentNode.style.height = '';
+            modelViewer.style.height = 'inherit';
+            modelViewer.style.width = 'inherit';
+            modelViewer.addEventListener('load', () => {
+              const { x, y } = modelViewer?.getDimensions();
+              if (typeof x === 'number' && typeof y === 'number') {
+                modelViewer.style.aspectRatio = `${x}/${y}`;
+              }
+
+              this.visualizationWrapper.querySelector('.fullscreenButton')?.remove();
+              this.params.globals.get('resize')();
+            });
+          }
+        }
+      }
+
+      // Only images can be shown as background
+      if (this.params.imagePosition === 'background' && instance.libraryInfo.machineName === 'H5P.Image') {
+        const src = instance.source;
+        this.dom.style.backgroundImage = `url(${src})`;
+      }
+
+      this.visualizationWrapper.classList.toggle(
+        'display-none',
+        !instance ||
+        this.params.imagePosition === 'background' && instance.libraryInfo.machineName === 'H5P.Image'
+      );
+
+      // Used in getResults
+      this.visualization = params.personality.visualization;
     }
 
     // Description
@@ -312,7 +344,47 @@ export default class ResultScreen {
     return {
       personality: this.resultPersonality,
       description: this.resultDescription,
-      image: this.image
+      image: this.visualization
     };
+  }
+
+  /**
+   * Make it easy to bubble events from child to parent.
+   * @param {object} origin Origin of event.
+   * @param {string} eventName Name of event.
+   * @param {object} target Target to trigger event on.
+   */
+  bubbleUp(origin, eventName, target) {
+    origin.on(eventName, (event) => {
+      // Prevent target from sending event back down
+      target.bubblingUpwards = true;
+
+      // Trigger event
+      target.trigger(eventName, event);
+
+      // Reset
+      target.bubblingUpwards = false;
+    });
+  }
+
+  /**
+   * Make it easy to bubble events from parent to children.
+   * @param {object} origin Origin of event.
+   * @param {string} eventName Name of event.
+   * @param {object[]} targets Targets to trigger event on.
+   */
+  bubbleDown(origin, eventName, targets) {
+    origin.on(eventName, (event) => {
+      if (origin.bubblingUpwards) {
+        return; // Prevent send event back down.
+      }
+
+      targets.forEach((target) => {
+        // If not attached yet, some contents can fail (e. g. CP).
+        if (this.isAttached) {
+          target.trigger(eventName, event);
+        }
+      });
+    });
   }
 }

@@ -137,11 +137,15 @@ export default class Content {
       this.intro = document.createElement('div');
       this.intro.classList.add('h5p-personality-quiz-xr-content-intro');
 
+      console.log(this.params);
+
+
       this.startScreen = new MediaScreen({
         id: 'start',
         contentId: this.params.globals.get('contentId'),
         introduction: this.params.titleScreen.titleScreenIntroduction,
         medium: this.params.titleScreen.titleScreenMedium,
+        maxMediumHeight: this.params.titleScreen.maxHeight,
         buttons: [
           { id: 'start', text: this.params.dictionary.get('l10n.start') }
         ],
@@ -342,7 +346,7 @@ export default class Content {
     ];
 
     // Update result if user was reviewing or not already completed before
-    if (this.isReviewing || !this.resultScreen.getCurrentState()) {
+    if (this.isReviewing || !this.resultScreen.getCurrentState() | !params.isFromReset) {
       this.resultScreen.setContent({
         personality: this.params.personalities[winnerIndex],
         choices: this.questionScreen.getChoices()
@@ -444,7 +448,7 @@ export default class Content {
     ) {
       this.questionScreen.show({ focus: params.focus });
     }
-    else if (this.params.titleScreen && !this.getAnswersGiven()) {
+    else if (this.params.titleScreen && !this.getAnswerGiven()) {
       this.startScreen.show({
         focusButton: params.focus,
         readOpened: params.focus

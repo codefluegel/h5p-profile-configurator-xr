@@ -63,6 +63,30 @@
       margin: 0;
     }
 
+    .h5p-personality-quiz-xr-visualization {
+      --max-visualization-height: 15rem;
+
+      &.h5p-image img {
+        margin: 1rem auto 0 auto;
+        max-height: var(--max-visualization-height, none);
+        object-fit: contain;
+      }
+
+      &.h5p-model-viewer {
+        .model-viewer-container model-viewer {
+              margin: auto;
+              max-height: var(--max-visualization-height, none);
+        }
+        .fullscreenButton {
+          display: none;
+        }
+      }
+
+      &.display-none {
+        display: none;
+      }
+    }
+
     .h5p-personality-quiz-xr-result-screen-explanation-image-inline {
       display: block;
       max-height: 15rem;

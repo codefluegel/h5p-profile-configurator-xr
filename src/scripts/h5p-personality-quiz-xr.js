@@ -94,6 +94,7 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
     // Globals
     this.globals = new Globals();
     this.globals.set('contentId', this.contentId);
+    this.globals.set('mainInstance', this);
     this.globals.set('resize', () => {
       this.trigger('resize');
     });
@@ -168,7 +169,9 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
               titleScreenIntroduction:
                 this.params.titleScreen.titleScreenIntroduction,
               titleScreenMedium:
-                this.params.titleScreen.titleScreenMedium
+                this.params.titleScreen.titleScreenMedium,
+              maxHeight:
+                this.params.titleScreen.maxHeight
             }
           }
         )

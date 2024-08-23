@@ -12,6 +12,11 @@
         },
         {
           "label": "Multimedijska vsebina"
+        },
+        {
+          "label": "Maximum height",
+          "description": "Maximum height of the medium. 15rem will comply with common H5P standards.",
+          "placeholder": "15rem"
         }
       ]
     },
@@ -37,15 +42,16 @@
                 "label": "Opis"
               },
               {
-                "label": "Slika",
+                "label": "Visualization",
                 "fields": [
                   {
-                    "label": "Slika",
-                    "description": "Neobvezna slika za končni zaslon."
+                    "label": "Type",
+                    "description": "Optional content to display on the result screen."
                   },
                   {
-                    "label": "Nadomestno besedilo",
-                    "description": "Informacija za bralnike zaslona."
+                    "label": "Maximum height",
+                    "description": "H5P will usually determine the height based on the width. Set a maximum height here in CSS units (px, rem, etc.).",
+                    "placeholder": "15rem"
                   }
                 ]
               }
@@ -75,15 +81,16 @@
                 "label": "Vprašanje"
               },
               {
-                "label": "Slika",
+                "label": "Visualization",
                 "fields": [
                   {
-                    "label": "Slika",
-                    "description": "Neobvezna slika je prikazana nad vprašanjem."
+                    "label": "Type",
+                    "description": "Optional content to display above the question text."
                   },
                   {
-                    "label": "Nadomestno besedilo",
-                    "description": "Informacija za bralnike zaslona."
+                    "label": "Maximum height",
+                    "description": "H5P will usually determine the height based on the width. Set a maximum height here in CSS units (px, rem, etc.).",
+                    "placeholder": "10rem"
                   }
                 ]
               },

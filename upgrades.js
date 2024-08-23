@@ -100,6 +100,102 @@ H5PUpgrades['H5P.PersonalityQuizXR'] = (() => {
         }
 
         finished(null, parameters, extras);
+      },
+      /**
+       * Convert internal image widgets to H5P.Image.
+       * @param {object} parameters Parameters.
+       * @param {function} finished Callback when done.
+       * @param {object} extras Extras such as metadata.
+       */
+      2: (parameters, finished, extras) => {
+        const createUUID = () => {
+          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
+            const random = Math.random() * 16 | 0;
+            const newChar = char === 'x' ? random : (random & 0x3 | 0x8);
+            return newChar.toString(16);
+          });
+        };
+
+        const copyrightToMetadata = (copyright = {}, contentType = null) => {
+          const metadata = {
+            authors: [],
+            changes: [],
+            ...(contentType && { contentType: contentType }),
+            license: copyright.license ?? 'U',
+            ...(copyright.version && { licenseVersion: copyright.version }),
+            ...(copyright.source && { source: copyright.source }),
+            title: copyright.title ?? (contentType ? `Untitled ${contentType}` : 'Untitled')
+          };
+
+          if (copyright.author) {
+            metadata.authors.push({
+              role: 'author',
+              name: copyright.author
+            });
+          }
+          if (copyright.year) {
+            // Good enough
+            const years = copyright.year.split('-').map(Number);
+            if (!isNaN(years[0])) {
+              metadata.yearFrom = years[0];
+            }
+            if (!isNaN(years[1])) {
+              metadata.yearTo = years[1];
+            }
+          }
+
+          return metadata;
+        };
+
+        if (parameters?.titleScreen) {
+          parameters.titleScreen.maxHeight = '15rem';
+        }
+
+        if (Array.isArray(parameters?.personalitiesGroup?.personalities)) {
+          for (let i = 0; i < parameters.personalitiesGroup.personalities.length; i++) {
+            const personality = parameters.personalitiesGroup.personalities[i];
+            if (personality.image?.file?.path) {
+              personality.visualization = {
+                content: {
+                  library: 'H5P.Image 1.1',
+                  metadata: copyrightToMetadata(personality.image.file.copyright, 'Image'),
+                  params: {
+                    ...(personality.image.alt && { alt: personality.image.alt }),
+                    contentName: 'Image',
+                    file: personality.image.file
+                  },
+                  subContentId: createUUID()
+                },
+                maxHeight: '15rem'
+              };
+            }
+            delete personality.image;
+          }
+        }
+
+        if (Array.isArray(parameters?.questionsGroup?.questions)) {
+          for (let i = 0; i < parameters.questionsGroup.questions.length; i++) {
+            const question = parameters.questionsGroup.questions[i];
+            if (question.image?.file?.path) {
+              question.visualization = {
+                content: {
+                  library: 'H5P.Image 1.1',
+                  metadata: copyrightToMetadata(question.image.file.copyright, 'Image'),
+                  params: {
+                    ...(question.image.alt && { alt: question.image.alt }),
+                    contentName: 'Image',
+                    file: question.image.file
+                  },
+                  subContentId: createUUID()
+                },
+                maxHeight: '10rem'
+              };
+            }
+            delete question.image;
+          }
+        }
+
+        finished(null, parameters, extras);
       }
     }
   };

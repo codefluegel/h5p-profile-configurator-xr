@@ -12,6 +12,11 @@
         },
         {
           "label": "Titelbildschirm-Medium"
+        },
+        {
+          "label": "Maximale Höhe",
+          "description": "Maximale Höhe des Mediums. 15rem entsprechen den üblichen H5P-Gepflogenheiten.",
+          "placeholder": "15rem"
         }
       ]
     },
@@ -37,15 +42,16 @@
                 "label": "Beschreibung"
               },
               {
-                "label": "Bild",
+                "label": "Visualisierung",
                 "fields": [
                   {
-                    "label": "Bild",
-                    "description": "Optionales Bild, das auf dem Ergebnisbildschirm angezeigt werden soll."
+                    "label": "Typ",
+                    "description": "Optionale Visualisierung, die auf dem Ergebnisbildschirm angezeigt werden soll."
                   },
                   {
-                    "label": "Alternativer Text",
-                    "description": "Alternativer Text für Bildschirmleser."
+                    "label": "Maximale Höhe",
+                    "description": "H5P bestimmt die Höhe normalerweise auf Grundlage der Breite. Setze hier eine maximale Höhe in CSS-Einheiten (px, rem, etc.).",
+                    "placeholder": "15rem"
                   }
                 ]
               }
@@ -75,21 +81,22 @@
                 "label": "Fragetext"
               },
               {
-                "label": "Bild",
+                "label": "Visualisierung",
                 "fields": [
                   {
-                    "label": "Bild",
-                    "description": "Optionales Bild, das vor dem Fragetext angezeigt wird."
+                    "label": "Typ",
+                    "description": "Optionale Visualisierung, die oberhalb des Fragetextes dargestellt wird."
                   },
                   {
-                    "label": "Alternativer Text",
-                    "description": "Alternativer Text für Bildschirmleser."
+                    "label": "Maximum height",
+                    "description": "H5P will usually determine the height based on the width. Set a maximum height here in CSS units (px, rem, etc.). Please note that this will not influence the maximum height of the H5P content as a whole.",
+                    "placeholder": "10rem"
                   }
                 ]
               },
               {
-                "label": "Allow multiple choices",
-                "description": "If checked, the user can select multiple answers for this question."
+                "label": "Erlaube mehrere Antworten",
+                "description": "Wenn gewählt, können die Nutzenden mehrere Antworten auf die Frage auswählen."
               },
               {
                 "label": "Antworten",
