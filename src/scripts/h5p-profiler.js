@@ -7,7 +7,7 @@ import QuestionTypeContract from '@mixins/question-type-contract.js';
 import Sanitization from '@mixins/sanitization.js';
 import XAPI from '@mixins/xapi.js';
 import Color from 'color';
-import '@styles/h5p-personality-quiz-xr.scss';
+import '@styles/h5p-profiler.scss';
 
 /** @constant {number} HOVER_COLOR_LIGHTNESS_DELTA Factor to lighten/darken a hover color. */
 const HOVER_COLOR_LIGHTNESS_DELTA = 0.25;
@@ -18,7 +18,10 @@ const ACTIVE_COLOR_LIGHTNESS_DELTA = 0.37;
 /** @constant {number} PALE_COLOR_FACTOR Factor to mix a color with white. */
 const PALE_COLOR_FACTOR = 0.9;
 
-export default class PersonalityQuizXR extends H5P.EventDispatcher {
+/** @constant {string} DEFAULT_DESCRIPTION description */
+const DEFAULT_DESCRIPTION = 'Profiler';
+
+export default class Profiler extends H5P.EventDispatcher {
   /**
    * @class
    * @param {object} params Parameters passed by the editor.
@@ -29,7 +32,7 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
     super();
 
     Util.addMixins(
-      PersonalityQuizXR, [QuestionTypeContract, Sanitization, XAPI]
+      Profiler, [QuestionTypeContract, Sanitization, XAPI]
     );
 
     // Sanitize parameters
@@ -292,7 +295,7 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
   getTitle() {
     // H5P Core function: createTitle
     return H5P.createTitle(
-      this.extras?.metadata?.title || PersonalityQuizXR.DEFAULT_DESCRIPTION
+      this.extras?.metadata?.title || DEFAULT_DESCRIPTION
     );
   }
 
@@ -301,9 +304,6 @@ export default class PersonalityQuizXR extends H5P.EventDispatcher {
    * @returns {string} Description.
    */
   getDescription() {
-    return PersonalityQuizXR.DEFAULT_DESCRIPTION;
+    return DEFAULT_DESCRIPTION;
   }
 }
-
-/** @constant {string} Default description */
-PersonalityQuizXR.DEFAULT_DESCRIPTION = 'Personality Quiz';

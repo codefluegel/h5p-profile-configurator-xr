@@ -1,5 +1,5 @@
 /* global H5PUpgrades */
-H5PUpgrades['H5P.PersonalityQuizXR'] = (() => {
+H5PUpgrades['H5P.Profiler'] = (() => {
   // Avoiding to use H5P.createUUID as H5P function may change
   const createUUID = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'

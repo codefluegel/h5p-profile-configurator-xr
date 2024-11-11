@@ -1,4 +1,4 @@
-import PersonalityQuizXR from '@scripts/h5p-personality-quiz-xr.js';
+import Profiler from '@scripts/h5p-profiler.js';
 
 // Load library
-H5P.PersonalityQuizXR = PersonalityQuizXR;
+H5P.Profiler = Profiler;
