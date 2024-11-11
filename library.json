@@ -2,7 +2,7 @@
   "title": "ProfileConfigurator",
   "description": "Create content to sort people/things into different catagories. Can be used for configuration, too.",
   "majorVersion": 1,
-  "minorVersion": 2,
+  "minorVersion": 3,
   "patchVersion": 0,
   "runnable": 1,
   "author": "Oliver Tacke, Lumenia AS",
