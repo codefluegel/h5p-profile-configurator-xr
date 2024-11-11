@@ -48,7 +48,7 @@ export default class Panel {
    */
   buildDOM() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-personality-quiz-xr-panel');
+    this.dom.classList.add('h5p-profile-configurator-panel');
     this.dom.classList.add(`appearance-${this.params.appearance}`);
 
     // Visualization
@@ -72,7 +72,7 @@ export default class Panel {
         );
 
         const visualizationWrapper = document.createElement('div');
-        visualizationWrapper.classList.add('h5p-personality-quiz-xr-visualization');
+        visualizationWrapper.classList.add('h5p-profile-configurator-visualization');
 
         visualizationWrapper.style.setProperty(
           '--max-visualization-height',
@@ -109,7 +109,7 @@ export default class Panel {
     const questionTextId = H5P.createUUID();
 
     this.questionText = document.createElement('div');
-    this.questionText.classList.add('h5p-personality-quiz-xr-question');
+    this.questionText.classList.add('h5p-profile-configurator-question');
     this.questionText.setAttribute('id', questionTextId);
     this.dom.append(this.questionText);
 
@@ -136,7 +136,7 @@ export default class Panel {
 
     // Options
     this.optionWrapper = document.createElement('ol');
-    this.optionWrapper.classList.add('h5p-personality-quiz-xr-answer-options');
+    this.optionWrapper.classList.add('h5p-profile-configurator-answer-options');
     this.optionWrapper.classList.add(`mode-${mode}`);
     this.optionWrapper.setAttribute('aria-labelledby', questionTextId);
     // Some screenreaders do not real label unless role is set to group
@@ -151,7 +151,7 @@ export default class Panel {
 
     this.params.answerOptions.forEach((option, index) => {
       const listItem = document.createElement('li');
-      listItem.classList.add('h5p-personality-quiz-xr-answer-list-item');
+      listItem.classList.add('h5p-profile-configurator-answer-list-item');
       this.optionWrapper.append(listItem);
 
       const optionInstance = new Option(
@@ -180,13 +180,13 @@ export default class Panel {
 
     if (this.params.allowsMultipleChoices && this.params.appearance === 'chat') {
       this.buttonDone = document.createElement('button');
-      this.buttonDone.classList.add('h5p-personality-quiz-xr-button-done');
+      this.buttonDone.classList.add('h5p-profile-configurator-button-done');
       if (this.params.animation && this.params.appearance === 'chat') {
         this.buttonDone.classList.add('display-none');
       }
 
       const label = document.createElement('span');
-      label.classList.add('h5p-personality-quiz-xr-button-done-label');
+      label.classList.add('h5p-profile-configurator-button-done-label');
       label.innerText = this.params.dictionary.get('l10n.done');
       this.buttonDone.append(label);
 

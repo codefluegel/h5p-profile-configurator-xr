@@ -4,7 +4,7 @@
   100% { opacity: 0; }
 }
 
-.h5p-personality-quiz-xr-panel {
+.h5p-profile-configurator-panel {
   align-content: center;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
   min-height: 4rem;
   width: 100%;
 
-  .h5p-personality-quiz-xr-visualization {
+  .h5p-profile-configurator-visualization {
     --max-visualization-height: 10rem;
 
     &.h5p-image img {
@@ -31,16 +31,16 @@
     }
   }
 
-  .h5p-personality-quiz-xr-question {
+  .h5p-profile-configurator-question {
     font-weight: bold;
     padding: 1em;
     text-align: center;
   }
 
-  .h5p-personality-quiz-xr-answer-options {
+  .h5p-profile-configurator-answer-options {
     padding: 0;
 
-    .h5p-personality-quiz-xr-answer-list-item {
+    .h5p-profile-configurator-answer-list-item {
       list-style: none;
     }
 
@@ -48,7 +48,7 @@
       grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
       gap: 1rem;
 
-      .h5p-personality-quiz-xr-answer-list-item {
+      .h5p-profile-configurator-answer-list-item {
         height: 100%;
       }
     }
@@ -59,26 +59,26 @@
     }
   }
 
-  .h5p-personality-quiz-xr-button-done {
+  .h5p-profile-configurator-button-done {
     align-self: flex-end;
     font-size: 1rem;
     width: fit-content;
   }
 
   &.appearance-classic {
-    .h5p-personality-quiz-xr-question {
+    .h5p-profile-configurator-question {
       font-weight: bold;
       padding: 1em;
       text-align: center;
     }
 
-    .h5p-personality-quiz-xr-answer-options {
+    .h5p-profile-configurator-answer-options {
       display: grid;
       margin: 0;
       padding: 0;
     }
 
-    .h5p-personality-quiz-xr-button-done {
+    .h5p-profile-configurator-button-done {
       background-color: var(--color-button-background);
       background-size: cover;
       border: 0;
@@ -121,7 +121,7 @@
     margin-bottom: 0.5rem;
     min-height: 2.5rem;
 
-    .h5p-personality-quiz-xr-question {
+    .h5p-profile-configurator-question {
       background-color: #eeeeee;
       border-radius: 1rem 1rem 1rem 0;
       box-shadow: 0.125rem 0.125rem 0.25rem rgba(0 0 0 / 0.2);
@@ -180,7 +180,7 @@
       }
     }
 
-    .h5p-personality-quiz-xr-answer-options {
+    .h5p-profile-configurator-answer-options {
       align-self: flex-end;
       display: flex;
       flex-direction: row;
@@ -214,7 +214,7 @@
       }
     }
 
-    .h5p-personality-quiz-xr-button-done {
+    .h5p-profile-configurator-button-done {
       background-color: #eeeeee;
       border: none;
       border-radius: 1rem 1rem 0 1rem;
@@ -226,7 +226,7 @@
       text-align: left;
       width: fit-content;
 
-      .h5p-personality-quiz-xr-done-button-label {
+      .h5p-profile-configurator-done-button-label {
         border-radius: 0 0 0 1rem;
         font-weight: normal;
         padding: 0.5rem 1rem;

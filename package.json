@@ -1,5 +1,5 @@
 {
-  "name": "h5p-profiler",
+  "name": "h5p-profile-configurator",
   "version": "1.2.0",
   "description": "Create content to sort people/things into different catagories. Can be used for configuration, too.",
   "private": true,
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/otacke/h5p-personality-quiz-xr.git"
+    "url": "git+https://github.com/otacke/h5p-profile-configurator.git"
   },
   "keywords": [
     "h5p",

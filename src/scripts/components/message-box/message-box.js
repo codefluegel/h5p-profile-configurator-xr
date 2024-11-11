@@ -8,10 +8,10 @@ export default class MessageBox {
    */
   constructor() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-personality-quiz-xr-message-box');
+    this.dom.classList.add('h5p-profile-configurator-message-box');
 
     this.message = document.createElement('p');
-    this.message.classList.add('h5p-personality-quiz-xr-message-box-message');
+    this.message.classList.add('h5p-profile-configurator-message-box-message');
     this.dom.append(this.message);
   }
 

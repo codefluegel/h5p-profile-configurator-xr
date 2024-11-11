@@ -41,38 +41,38 @@ export default class ResultScreen {
    */
   buildDOM() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-personality-quiz-xr-result-screen');
+    this.dom.classList.add('h5p-profile-configurator-result-screen');
 
     this.title = document.createElement('p');
     this.title.classList.add(
-      'h5p-personality-quiz-xr-result-screen-explanation-title'
+      'h5p-profile-configurator-result-screen-explanation-title'
     );
     this.title.classList.add('display-none');
     this.dom.append(this.title);
 
     const row = document.createElement('div');
-    row.classList.add('h5p-personality-quiz-xr-result-screen-row');
+    row.classList.add('h5p-profile-configurator-result-screen-row');
 
     // Visualization
     this.visualizationWrapper = document.createElement('div');
-    this.visualizationWrapper.classList.add('h5p-personality-quiz-xr-visualization');
+    this.visualizationWrapper.classList.add('h5p-profile-configurator-visualization');
     this.visualizationWrapper.classList.add('display-none');
     row.append(this.visualizationWrapper);
 
     this.detailsDOM = document.createElement('div');
-    this.detailsDOM.classList.add('h5p-personality-quiz-xr-result-screen-details');
+    this.detailsDOM.classList.add('h5p-profile-configurator-result-screen-details');
     row.append(this.detailsDOM);
 
     // Personality explanation
     this.explanation = document.createElement('div');
     this.explanation.classList.add(
-      'h5p-personality-quiz-xr-result-screen-explanation'
+      'h5p-profile-configurator-result-screen-explanation'
     );
     this.explanation.classList.add('display-none');
 
     this.description = document.createElement('p');
     this.description.classList.add(
-      'h5p-personality-quiz-xr-result-screen-explanation-description'
+      'h5p-profile-configurator-result-screen-explanation-description'
     );
     this.explanation.append(this.description);
     this.detailsDOM.append(this.explanation);
@@ -80,28 +80,28 @@ export default class ResultScreen {
     // Options chosen
     this.optionsChosen = document.createElement('div');
     this.optionsChosen.classList.add(
-      'h5p-personality-quiz-xr-result-screen-options-chosen'
+      'h5p-profile-configurator-result-screen-options-chosen'
     );
     this.optionsChosen.classList.add('display-none');
     this.detailsDOM.append(this.optionsChosen);
 
     this.choicesTitle = document.createElement('p');
-    this.choicesTitle.classList.add('h5p-personality-quiz-xr-result-screen-choices-title');
+    this.choicesTitle.classList.add('h5p-profile-configurator-result-screen-choices-title');
     this.choicesTitle.innerText = this.params.dictionary.get('l10n.yourChoices');
     this.optionsChosen.append(this.choicesTitle);
 
     this.choices = document.createElement('ul');
-    this.choices.classList.add('h5p-personality-quiz-xr-result-screen-choices');
+    this.choices.classList.add('h5p-profile-configurator-result-screen-choices');
     this.optionsChosen.append(this.choices);
 
     this.dom.append(row);
 
     const buttonWrapper = document.createElement('div');
-    buttonWrapper.classList.add('h5p-personality-quiz-xr-result-screen-buttons');
+    buttonWrapper.classList.add('h5p-profile-configurator-result-screen-buttons');
 
     if (this.params.allowReview) {
       this.buttonBack = document.createElement('button');
-      this.buttonBack.classList.add('h5p-personality-quiz-xr-result-screen-button');
+      this.buttonBack.classList.add('h5p-profile-configurator-result-screen-button');
       this.buttonBack.innerText = this.params.l10n.review;
       this.buttonBack.addEventListener('click', () => {
         this.callbacks.onBack();
@@ -110,7 +110,7 @@ export default class ResultScreen {
     }
 
     this.buttonReset = document.createElement('button');
-    this.buttonReset.classList.add('h5p-personality-quiz-xr-result-screen-button');
+    this.buttonReset.classList.add('h5p-profile-configurator-result-screen-button');
     this.buttonReset.innerText = this.params.l10n.reset;
     this.buttonReset.addEventListener('click', () => {
       this.callbacks.onReset();
@@ -191,12 +191,12 @@ export default class ResultScreen {
       .map((choice) => {
         const choiceItem = document.createElement('li');
         choiceItem.classList.add(
-          'h5p-personality-quiz-xr-result-screen-choices-list-item'
+          'h5p-profile-configurator-result-screen-choices-list-item'
         );
 
         const questionDOM = document.createElement('p');
         questionDOM.classList.add(
-          'h5p-personality-quiz-xr-result-screen-choices-question'
+          'h5p-profile-configurator-result-screen-choices-question'
         );
         questionDOM.innerText = choice.question;
 
@@ -207,7 +207,7 @@ export default class ResultScreen {
 
         const choicesDOM = document.createElement('p');
         choicesDOM.classList.add(
-          'h5p-personality-quiz-xr-result-screen-choices-options'
+          'h5p-profile-configurator-result-screen-choices-options'
         );
         choicesDOM.innerHTML = options.join(', ');
 

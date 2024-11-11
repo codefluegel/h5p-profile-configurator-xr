@@ -7,7 +7,7 @@ import QuestionTypeContract from '@mixins/question-type-contract.js';
 import Sanitization from '@mixins/sanitization.js';
 import XAPI from '@mixins/xapi.js';
 import Color from 'color';
-import '@styles/h5p-profiler.scss';
+import '@styles/h5p-profile-configurator.scss';
 
 /** @constant {number} HOVER_COLOR_LIGHTNESS_DELTA Factor to lighten/darken a hover color. */
 const HOVER_COLOR_LIGHTNESS_DELTA = 0.25;
@@ -19,9 +19,9 @@ const ACTIVE_COLOR_LIGHTNESS_DELTA = 0.37;
 const PALE_COLOR_FACTOR = 0.9;
 
 /** @constant {string} DEFAULT_DESCRIPTION description */
-const DEFAULT_DESCRIPTION = 'Profiler';
+const DEFAULT_DESCRIPTION = 'ProfileConfigurator';
 
-export default class Profiler extends H5P.EventDispatcher {
+export default class ProfileConfigurator extends H5P.EventDispatcher {
   /**
    * @class
    * @param {object} params Parameters passed by the editor.
@@ -32,7 +32,7 @@ export default class Profiler extends H5P.EventDispatcher {
     super();
 
     Util.addMixins(
-      Profiler, [QuestionTypeContract, Sanitization, XAPI]
+      ProfileConfigurator, [QuestionTypeContract, Sanitization, XAPI]
     );
 
     // Sanitize parameters
@@ -127,7 +127,7 @@ export default class Profiler extends H5P.EventDispatcher {
    * @param {H5P.jQuery} $wrapper Content's container.
    */
   attach($wrapper) {
-    $wrapper.get(0).classList.add('h5p-personality-quiz-xr');
+    $wrapper.get(0).classList.add('h5p-profile-configurator');
     $wrapper.get(0).appendChild(this.dom);
   }
 
@@ -149,7 +149,7 @@ export default class Profiler extends H5P.EventDispatcher {
    */
   buildDOM() {
     const dom = document.createElement('div');
-    dom.classList.add('h5p-personality-quiz-xr-main');
+    dom.classList.add('h5p-profile-configurator-main');
 
     this.content = new Content(
       {

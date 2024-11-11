@@ -1,5 +1,5 @@
 {
-  "title": "Profiler",
+  "title": "ProfileConfigurator",
   "description": "Create content to sort people/things into different catagories. Can be used for configuration, too.",
   "majorVersion": 1,
   "minorVersion": 2,
@@ -7,18 +7,18 @@
   "runnable": 1,
   "author": "Oliver Tacke, Lumenia AS",
   "license": "MIT",
-  "machineName": "H5P.Profiler",
+  "machineName": "H5P.ProfileConfigurator",
   "embedTypes": [
     "iframe"
   ],
   "preloadedJs": [
     {
-      "path": "dist/h5p-profiler.js"
+      "path": "dist/h5p-profile-configurator.js"
     }
   ],
   "preloadedCss": [
     {
-      "path": "dist/h5p-profiler.css"
+      "path": "dist/h5p-profile-configurator.css"
     }
   ],
   "preloadedDependencies": [

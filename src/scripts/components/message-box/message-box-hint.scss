@@ -1,6 +1,6 @@
 @use "@styles/main";
 
-.h5p-personality-quiz-xr-message-box.message-box-hint {
+.h5p-profile-configurator-message-box.message-box-hint {
   background-color: main.$color-hint-message-background;
   border: 1px solid main.$color-hint-message-border;
   box-sizing: border-box;
@@ -8,7 +8,7 @@
   font-size: .8rem;
   padding: .8rem;
 
-  .h5p-personality-quiz-xr-message-box-message {
+  .h5p-profile-configurator-message-box-message {
     text-align: center;
   }
 }
