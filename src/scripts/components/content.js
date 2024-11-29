@@ -240,7 +240,7 @@ export default class Content {
    * @returns {boolean} True, if answer was given.
    */
   getAnswerGiven() {
-    const choices = this.questionScreen.getChoices();
+    const choices = this.questionScreen?.getChoices() ?? [];
 
     for (const panel of choices) {
       if (panel.options.some((option) => option.selected)) {
@@ -256,7 +256,7 @@ export default class Content {
    * @returns {number} Current position.
    */
   getCurrentPosition() {
-    return this.questionScreen.getCurrentPanelIndex();
+    return this.questionScreen?.getCurrentPanelIndex() ?? 0;
   }
 
   /**
