@@ -177,6 +177,10 @@
               "label": "Inline"
             }
           ]
+        },
+        {
+          "label": "Export title",
+          "default": "Profile configurator results"
         }
       ]
     },

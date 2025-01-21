@@ -177,6 +177,10 @@
               "label": "Eingebunden"
             }
           ]
+        },
+        {
+          "label": "Exporttitel",
+          "default": "Profile-Configurator-Ergebnisse"
         }
       ]
     },

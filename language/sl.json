@@ -177,6 +177,10 @@
               "label": "V vrstici z besedilom"
             }
           ]
+        },
+        {
+          "label": "Export title",
+          "default": "Profile configurator results"
         }
       ]
     },
