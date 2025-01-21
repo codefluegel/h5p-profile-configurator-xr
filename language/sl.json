@@ -261,6 +261,11 @@
           "description": "Besedilo gumba \"Poskusi ponovno\"."
         },
         {
+          "label": "Download",
+          "default": "Download",
+          "description": "Label of \"Download\" button."
+        },
+        {
           "label": "Review answers",
           "default": "Review answers",
           "description": "Label of \"Review answers\" button."

@@ -46,6 +46,9 @@ export default class ProfileConfigurator extends H5P.EventDispatcher {
       personalitiesGroup: {
         personalities: []
       },
+      resultScreen: {
+        exportTitle: 'Profile configurator results',
+      },
       visual: {
         isAnimationOn: true,
         showProgressBar: true,
@@ -62,6 +65,7 @@ export default class ProfileConfigurator extends H5P.EventDispatcher {
         currentOfTotal: '@current of @total',
         skip: 'Skip',
         reset: 'Restart',
+        download: 'Download',
         review: 'Review answers',
         notFinished: 'The quiz was not finished yet.',
         yourChoices: 'Your choices',

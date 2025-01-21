@@ -261,6 +261,11 @@
           "description": "Beschriftung des \"Neustart\"-Buttons."
         },
         {
+          "label": "Download",
+          "default": "Download",
+          "description": "Beschriftung des \"Download\"-Buttons."
+        },
+        {
           "label": "Antworten durchsehen",
           "default": "Antworten durchsenen",
           "description": "Beschriftung des \"Antworten durchsehen\"-Buttons."

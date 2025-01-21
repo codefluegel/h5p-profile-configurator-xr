@@ -70,7 +70,7 @@
       .h5p-profile-configurator-result-screen-explanation-description {
         margin-bottom: 0;
         margin-top: 0;
-        word-break: break-word;
+        overflow-wrap: break-word;
 
         &> p:first-child {
           margin-top: 0;
@@ -148,18 +148,23 @@
       text-align: center;
       text-decoration: none solid var(--color-button-text);
 
-      &:hover {
+      &:disabled {
+        background-color: var(--color-disabled);
+        cursor: not-allowed;
+      }
+
+      &:not([disabled]):hover {
         background-color: var(--color-button-hover);
         background-size: cover;
         cursor: pointer;
       }
 
-      &:active {
+      &:not([disabled]):active {
         background-color: var(--color-button-active);
         background-size: cover;
       }
 
-      &:focus {
+      &:not([disabled]):focus {
         outline-style: double;
       }
 

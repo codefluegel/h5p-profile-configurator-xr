@@ -38,7 +38,8 @@
   },
   "dependencies": {
     "color": "^4.2.3",
-    "he": "^1.2.0"
+    "he": "^1.2.0",
+    "jspdf": "^2.5.2"
   },
   "browserslist": "> 0.5%, last 3 versions, Firefox ESR, not dead"
 }

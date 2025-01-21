@@ -7,4 +7,7 @@ html {
 .h5p-profile-configurator {
   background-color: main.$color-background;
   color: main.$color-text;
+
+  // Disabled color, e.g. for buttons
+  --color-disabled: rgb(128 128 128 / 95%);
 }
