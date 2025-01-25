@@ -12,6 +12,7 @@ export default class ResultScreen {
    * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onReset] Callback when reset button clicked.
    * @param {function} [callbacks.onBack] Callback when back button clicked.
+   * @param {function} [callbacks.onDownload] Callback when export PDF button clicked.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -26,12 +27,15 @@ export default class ResultScreen {
 
     this.callbacks = Util.extend({
       onReset: () => {},
-      onBack: () => {}
+      onBack: () => {},
+      onDownload: () => {},
     }, callbacks);
 
     this.ariaText = '';
     this.resultPersonality = this.params.l10n.notFinished;
     this.showOptionsChosen = params.displayOptionsChosen || false;
+
+    this.exportElements = {};
 
     this.buildDOM();
   }
@@ -117,6 +121,15 @@ export default class ResultScreen {
     });
     buttonWrapper.append(this.buttonReset);
 
+    this.buttonPDF = document.createElement('button');
+    this.buttonPDF.classList.add('h5p-profile-configurator-result-screen-button');
+    this.buttonPDF.innerText = this.params.l10n.download;
+    this.buttonPDF.addEventListener('click', () => {
+      this.callbacks.onDownload();
+    });
+    buttonWrapper.append(this.buttonPDF);
+    this.buttonPDF.disabled = true;
+
     this.dom.append(buttonWrapper);
   }
 
@@ -126,6 +139,34 @@ export default class ResultScreen {
    */
   getDOM() {
     return this.dom;
+  }
+
+  /**
+   * Get export elements.
+   * @returns {object[]} Export elements.
+   */
+  getExportElements() {
+    return [
+      {
+        content: this.params.exportTitle,
+        params: { size: 24, style: 'bold' }
+      },
+      {
+        content: this.exportElements.personality,
+        params: { size: 20, style: 'bold' }
+      },
+      {
+        content: this.exportElements.visualization,
+      },
+      {
+        content: this.exportElements.description
+      },
+      {
+        content: this.exportElements.choicesTitle,
+        params: { size: 16, style: 'bold' }
+      },
+      ...(this.exportElements.choices ?? [])
+    ].flat();
   }
 
   /**
@@ -240,6 +281,8 @@ export default class ResultScreen {
       this.explanation.classList.remove('display-none');
       this.title.classList.remove('display-none');
       this.title.innerText = params.personality.name;
+
+      this.exportElements.personality = params.personality.name;
     }
     else {
       this.title.classList.add('display-none');
@@ -274,6 +317,8 @@ export default class ResultScreen {
         if (instance.libraryInfo.machineName === 'H5P.Image') {
           instance.on('loaded', () => {
             this.params.globals.get('resize')();
+            this.exportElements.visualization = this.visualizationWrapper.querySelector('img');
+            this.buttonPDF.disabled = false;
           });
         };
 
@@ -281,21 +326,31 @@ export default class ResultScreen {
 
         // Override model-viewer settings
         if (instance.libraryInfo.machineName === 'H5P.ModelViewer') {
-          const modelViewer = this.visualizationWrapper.querySelector('model-viewer');
-          if (modelViewer) {
-            modelViewer.parentNode.style.height = '';
-            modelViewer.style.height = 'inherit';
-            modelViewer.style.width = 'inherit';
-            modelViewer.addEventListener('load', () => {
-              const { x, y } = modelViewer?.getDimensions();
-              if (typeof x === 'number' && typeof y === 'number') {
-                modelViewer.style.aspectRatio = `${x}/${y}`;
-              }
-
+          Util.callOnceVisible(this.visualizationWrapper, () => {
+            const onInitialized = (modelViewer) => {
               this.visualizationWrapper.querySelector('.fullscreenButton')?.remove();
               this.params.globals.get('resize')();
+
+              const image = new Image();
+              image.src = modelViewer.toDataURL();
+
+              this.exportElements.visualization = image;
+              this.buttonPDF.disabled = false;
+            };
+
+            window.requestAnimationFrame(() => {
+              const modelViewer = this.visualizationWrapper.querySelector('model-viewer');
+              if (modelViewer) {
+                if (modelViewer.shadowRoot.querySelector('.canvas')) {
+                  onInitialized(modelViewer);
+                }
+
+                modelViewer.addEventListener('load', () => {
+                  onInitialized(modelViewer);
+                });
+              }
             });
-          }
+          });
         }
       }
 
@@ -319,6 +374,7 @@ export default class ResultScreen {
     if (params.personality.description && this.params.displayDescription) {
       this.explanation.classList.remove('display-none');
       this.description.innerHTML = params.personality.description;
+      this.exportElements.description = Util.purifyHTML(params.personality.description);
     }
     else {
       this.explanation.classList.add('display-none');
@@ -329,6 +385,17 @@ export default class ResultScreen {
     }
 
     this.optionsChosen.classList.toggle('display-none', !this.params.displayOptionsChosen);
+    if (this.params.displayOptionsChosen) {
+      this.exportElements.choicesTitle = this.params.dictionary.get('l10n.yourChoices');
+      this.exportElements.choices = params.choices.map((choice) => {
+        const selectedText = Util.purifyHTML(choice.options.find((option) => option.selected)?.text);
+
+        return [
+          { content: choice.question, params: { size: 14, style: 'italic' } },
+          { content: `${choice.options.map((option) => option.text).join(', ')} (${selectedText})` }
+        ];
+      });
+    }
 
     if ([...this.detailsDOM.children].every((child) => child.classList.contains('display-none'))) {
       this.detailsDOM.classList.add('display-none');

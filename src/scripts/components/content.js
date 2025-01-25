@@ -1,3 +1,4 @@
+import PDFExporter from '@services/pdf-exporter.js';
 import Util from '@services/util.js';
 import MediaScreen from '@components/media-screen/media-screen.js';
 import MessageBoxHint from '@components/message-box/message-box-hint.js';
@@ -175,7 +176,8 @@ export default class Content {
         l10n: {
           notFinished: this.params.dictionary.get('l10n.notFinished'),
           reset: this.params.dictionary.get('l10n.reset'),
-          review: this.params.dictionary.get('l10n.review')
+          review: this.params.dictionary.get('l10n.review'),
+          download: this.params.dictionary.get('l10n.download')
         },
         a11y: {
           resultsTitle: this.params.dictionary.get('a11y.resultsTitle')
@@ -184,6 +186,9 @@ export default class Content {
       {
         onReset: () => {
           this.callbacks.onReset();
+        },
+        onDownload: () => {
+          this.exportPDF();
         },
         onBack: () => {
           this.isReviewing = true;
@@ -467,5 +472,14 @@ export default class Content {
    */
   run(params = {}) {
     this.reset(params);
+  }
+
+  /**
+   * Export PDF.
+   */
+  async exportPDF() {
+    await new PDFExporter().export({
+      elements: this.resultScreen.getExportElements()
+    });
   }
 }

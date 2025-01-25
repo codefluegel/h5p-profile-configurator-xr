@@ -177,6 +177,10 @@
               "label": "Eingebunden"
             }
           ]
+        },
+        {
+          "label": "Exporttitel",
+          "default": "Profile-Configurator-Ergebnisse"
         }
       ]
     },
@@ -259,6 +263,11 @@
           "label": "Neustart",
           "default": "Noch einmal starten",
           "description": "Beschriftung des \"Neustart\"-Buttons."
+        },
+        {
+          "label": "Download",
+          "default": "Download",
+          "description": "Beschriftung des \"Download\"-Buttons."
         },
         {
           "label": "Antworten durchsehen",

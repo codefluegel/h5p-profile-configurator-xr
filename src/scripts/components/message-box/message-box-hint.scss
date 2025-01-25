@@ -1,10 +1,8 @@
-@use "@styles/main";
-
 .h5p-profile-configurator-message-box.message-box-hint {
-  background-color: main.$color-hint-message-background;
-  border: 1px solid main.$color-hint-message-border;
+  background-color: var(--color-hint-message-background);
+  border: 1px solid var(--color-hint-message-border);
   box-sizing: border-box;
-  color: main.$color-hint-message-text;
+  color: var(--color-hint-message-text);
   font-size: .8rem;
   padding: .8rem;
 

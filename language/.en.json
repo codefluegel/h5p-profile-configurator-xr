@@ -177,6 +177,10 @@
               "label": "Inline"
             }
           ]
+        },
+        {
+          "label": "Export title",
+          "default": "Profile configurator results"
         }
       ]
     },
@@ -259,6 +263,11 @@
           "label": "Restart",
           "default": "Restart",
           "description": "Label of \"Restart\" button."
+        },
+        {
+          "label": "Download",
+          "default": "Download",
+          "description": "Label of \"Download\" button."
         },
         {
           "label": "Review answers",

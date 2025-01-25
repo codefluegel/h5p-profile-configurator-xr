@@ -359,6 +359,13 @@
             "label": "Inline"
           }
         ]
+      },
+      {
+        "name": "exportTitle",
+        "type": "text",
+        "label": "Export title",
+        "default": "Profile configurator results",
+        "optional": true
       }
     ]
   },
@@ -508,6 +515,13 @@
         "type": "text",
         "default": "Restart",
         "description": "Label of \"Restart\" button."
+      },
+      {
+        "name": "download",
+        "label": "Download",
+        "type": "text",
+        "default": "Download",
+        "description": "Label of \"Download\" button."
       },
       {
         "name": "review",

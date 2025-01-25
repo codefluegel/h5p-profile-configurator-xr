@@ -177,6 +177,10 @@
               "label": "V vrstici z besedilom"
             }
           ]
+        },
+        {
+          "label": "Export title",
+          "default": "Profile configurator results"
         }
       ]
     },
@@ -259,6 +263,11 @@
           "label": "Poskusi ponovno",
           "default": "Poskusi ponovno",
           "description": "Besedilo gumba \"Poskusi ponovno\"."
+        },
+        {
+          "label": "Download",
+          "default": "Download",
+          "description": "Label of \"Download\" button."
         },
         {
           "label": "Review answers",
