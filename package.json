@@ -1,6 +1,6 @@
 {
   "name": "h5p-profile-configurator",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Create content to sort people/things into different catagories. Can be used for configuration, too.",
   "private": true,
   "scripts": {
