@@ -353,6 +353,9 @@ export default class ResultScreen {
           });
         }
       }
+      else {
+        this.buttonPDF.disabled = false;
+      }
 
       // Only images can be shown as background
       if (this.params.imagePosition === 'background' && instance.libraryInfo.machineName === 'H5P.Image') {
