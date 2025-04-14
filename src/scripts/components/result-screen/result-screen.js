@@ -315,6 +315,10 @@ export default class ResultScreen {
         );
 
         if (instance.libraryInfo.machineName === 'H5P.Image') {
+          if (instance.placeholder) {
+            this.buttonPDF.disabled = false;
+          }
+
           instance.on('loaded', () => {
             this.params.globals.get('resize')();
             this.exportElements.visualization = this.visualizationWrapper.querySelector('img');
@@ -353,6 +357,9 @@ export default class ResultScreen {
           });
         }
       }
+      else {
+        this.buttonPDF.disabled = false;
+      }
 
       // Only images can be shown as background
       if (this.params.imagePosition === 'background' && instance.libraryInfo.machineName === 'H5P.Image') {
@@ -368,6 +375,9 @@ export default class ResultScreen {
 
       // Used in getResults
       this.visualization = params.personality.visualization;
+    }
+    else {
+      this.buttonPDF.disabled = false;
     }
 
     // Description
